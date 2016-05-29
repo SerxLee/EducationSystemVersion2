@@ -12,6 +12,8 @@ import Observable
 
 class LoginLogicManager: NSObject{
     
+    let type: String = "passing"
+    
     ///create the notification's keyPath
     static let FLICKR_DATA_COMPLETE:String = "flickrDataComplete"
     let classViewModel: LoginViewModel
@@ -39,12 +41,14 @@ class LoginLogicManager: NSObject{
         loginSession.POST(classViewModel.checkURL, parameters: myParameters, success: {  (dataTask, operation) -> Void in
             let error = operation!["err"] as! Int
             if error == 0 {
+//                print(operation)
                 let lim_data = operation!["data"] as! NSDictionary
-//                NSNotificationCenter.defaultCenter().postNotificationName(LoginLogicManager.FLICKR_DATA_COMPLETE, object: self, userInfo: ["courseData": lim_data])
                 self.classViewModel.courseDataArray = lim_data["info"] as? [NSDictionary]
-                self.classViewModel.studentInfo = lim_data["school_roll_info"] as? NSDictionary
+                studentInfo = lim_data["school_roll_info"] as? NSDictionary
+                
+                self.getDataFormLoginView()
+                
                 self.courseChange <- (0 - self.courseChange.value) ///change the Observable propertise and notifica the login view to update
-                //FIXME: put it into asyn
                 /**
                     if the username is not exist
                     add it into view model's historyArray and write the array into .plist file
@@ -69,6 +73,7 @@ class LoginLogicManager: NSObject{
                         self.historyDataModel.dataWrite()
                     }
                 }
+                self.classViewModel.LoginSuccess <- true
             }
             else {
                 print(operation!["reason"])
@@ -145,5 +150,19 @@ class LoginLogicManager: NSObject{
         
         noSlideLengh = self.classViewModel.deviceHeight / 4
         titleSlideLenght = self.classViewModel.deviceHeight / 6
+    }
+    func getDataFormLoginView() {
+        var currentTypeSemesters = [String]()
+        let currentTypeSemesterCount = self.classViewModel.courseDataArray!.count
+        let currentTypeAllCourse = NSMutableDictionary()
+        for dic in self.classViewModel.courseDataArray! {
+            let currentSemesterTitle = dic["block_name"] as! String
+            currentTypeSemesters.append(currentSemesterTitle)
+            let currentSemesterCourse = dic["courses"] as! [NSDictionary]
+            currentTypeAllCourse.addEntriesFromDictionary([currentSemesterTitle : currentSemesterCourse])
+        }
+        cacheSemester.addEntriesFromDictionary([self.type : currentTypeSemesters])
+        cacheSemesterNum.addEntriesFromDictionary([self.type : currentTypeSemesterCount])
+        cacheCourseData.addEntriesFromDictionary([self.type : currentTypeAllCourse])
     }
 }

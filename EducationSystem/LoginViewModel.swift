@@ -10,6 +10,7 @@ import Foundation
 import AFNetworking
 import Observable
 
+public var studentInfo: NSDictionary?
 
 class LoginViewModel {
     
@@ -23,6 +24,8 @@ class LoginViewModel {
     
     var courseDataArray: [NSDictionary]?
     var studentInfo: NSDictionary?
+    
+    var LoginSuccess: Observable<Bool> = Observable(false)
     
     init() {
         // Initialize any variables if any

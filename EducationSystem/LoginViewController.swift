@@ -31,12 +31,12 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initLoginViewController()
+        self.initView()
     }
     
     
     
-    private func initLoginViewController() {
+    func initView() {
         self.classViewModel = self.logicManager.classViewModel  //set the login view model local
         self.userName.delegate = self
         self.userName.returnKeyType = .Next
@@ -53,20 +53,15 @@ class LoginViewController: UIViewController {
         self.userName.addTarget(self, action: #selector(self.didEndEditing(_:)), forControlEvents: .EditingDidEnd)
         //        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.TestNotificationCenter(_:)), name: LoginLogicManager.FLICKR_DATA_COMPLETE, object: nil)
         self.logicManager.courseChange.afterChange += { old, new in
-            self.TestNotificationCenter2()
-            print("\(old) change to \(new)")
+//            print("\(old) change to \(new)")
+        }
+        self.classViewModel.LoginSuccess.afterChange += {old, new in
+            self.shouldPerformSegueWithIdentifier("LoginToMater", sender: nil)
+            self.performSegueWithIdentifier("LoginToMater", sender: nil)
+            
         }
     }
-    
-    func TestNotificationCenter2(){
-        NSLog("I heart the notification")
-    }
-    
-    func TestNotificationCenter(notification: NSNotification){
-        NSLog("I heart the notification")
-        let testaa: NSDictionary = notification.userInfo!
-        print(testaa.objectForKey("courseData"))
-    }
+
     
     func didEndEditing(textFile: UITextField) {
         self.hideHistoryTableView(false)
@@ -89,9 +84,9 @@ class LoginViewController: UIViewController {
         hide the hitory table view:
             just set the .hiden to true
     */
-    private func hideHistoryTableView(hiden: Bool, tableViewHeight: CGFloat = 0) {
+    private func hideHistoryTableView(hiden: Bool, tableViewHeight: CGFloat = 8.0) {
         self.historyTableView.hidden = hiden
-        self.pasTitleToUsernameContraint.constant = 8.0
+        self.pasTitleToUsernameContraint.constant = tableViewHeight
         if !hiden {
             self.historyTableView.reloadData()
         }
@@ -101,14 +96,24 @@ class LoginViewController: UIViewController {
         }
     }
     
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if identifier == "LoginToMater" {
+            let account = userName.text
+            let password = passWord.text
+            if account == "" || password == "" || self.classViewModel.LoginSuccess.value == false {
+                return false
+            }
+        }
+        //MARK: dddd
+        return true
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "LoginBottonToMain" {
+        if segue.identifier == "LoginToMater" {
             let navigationController = segue.destinationViewController as! UINavigationController
-            let nextViewController = navigationController.viewControllers[0] as! MainViewController
-            nextViewController.classViewModel.userName = self.userName.text!
-            nextViewController.classViewModel.passWord = self.passWord.text!
-            nextViewController.classViewModel.allCourse = self.classViewModel.courseDataArray
-            nextViewController.classViewModel.studenInfo = self.classViewModel.studentInfo
+            let nextViewController = navigationController.topViewController as! MasterViewController
+            nextViewController.userName = self.userName.text!
+            nextViewController.passWord = self.passWord.text!
         }
     }
     

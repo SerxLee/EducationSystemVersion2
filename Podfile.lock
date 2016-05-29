@@ -1,29 +1,48 @@
 PODS:
-  - AFNetworking (3.1.0):
-    - AFNetworking/NSURLSession (= 3.1.0)
-    - AFNetworking/Reachability (= 3.1.0)
-    - AFNetworking/Security (= 3.1.0)
-    - AFNetworking/Serialization (= 3.1.0)
-    - AFNetworking/UIKit (= 3.1.0)
-  - AFNetworking/NSURLSession (3.1.0):
+  - AFNetworking (2.5.0):
+    - AFNetworking/NSURLConnection (= 2.5.0)
+    - AFNetworking/NSURLSession (= 2.5.0)
+    - AFNetworking/Reachability (= 2.5.0)
+    - AFNetworking/Security (= 2.5.0)
+    - AFNetworking/Serialization (= 2.5.0)
+    - AFNetworking/UIKit (= 2.5.0)
+  - AFNetworking/NSURLConnection (2.5.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.1.0)
-  - AFNetworking/Security (3.1.0)
-  - AFNetworking/Serialization (3.1.0)
-  - AFNetworking/UIKit (3.1.0):
+  - AFNetworking/NSURLSession (2.5.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.0)
+  - AFNetworking/Security (2.5.0)
+  - AFNetworking/Serialization (2.5.0)
+  - AFNetworking/UIKit (2.5.0):
+    - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - HappyDNS (0.3.3.1)
+  - Kingfisher (2.4.1)
+  - Masonry (1.0.0)
   - Observable-Swift (0.6.0)
+  - Qiniu (7.0.19.1):
+    - AFNetworking (~> 2.0)
+    - HappyDNS (~> 0.2)
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.0)
+  - AFNetworking (= 2.5.0)
+  - Kingfisher (~> 2.4)
+  - Masonry
   - Observable-Swift (~> 0.6.0)
+  - Qiniu (~> 7.0)
 
 SPEC CHECKSUMS:
-  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  AFNetworking: 96ac9bf3eda33582701cb1fcc5b896aa1e20311e
+  HappyDNS: 816fceb07c964675bba4ffe668a7c5fc4ffdfe7e
+  Kingfisher: 41aed5b6c1ed8fa98cf6d75283ce89cf7890f517
+  Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   Observable-Swift: c63b9fc990703b135450cb5bd3541022384867ae
+  Qiniu: ceb88a496d556bdb8f8e0bddd83a1639dfe5f84b
 
-PODFILE CHECKSUM: fdf278115da0287f4ca646c66090ade741d7e78c
+PODFILE CHECKSUM: fbf2b05f20e8afb6bb4b4825ce7d7d2a5ccf7b13
 
 COCOAPODS: 1.0.0.beta.2

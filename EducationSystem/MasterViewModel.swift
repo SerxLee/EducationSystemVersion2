@@ -8,11 +8,23 @@
 
 import Foundation
 import UIKit
+import Observable
+
 
 class MasterViewModel {
+    
+    var courseDataArray: [NSDictionary]?
+    var studentInfo: NSDictionary?
+    
+    var urlString: String = "https://usth.eycia.me/Score"
+    var userName: String! = ""
+    var passWord: String! = ""
+    
+    var semestersNum: Int!
+    var allSemesters = [String]()
+    var courseDataSourse : [Dictionary<String, String>]!
     
     init() {
         // Initialize any variables if any
     }
-    
 }

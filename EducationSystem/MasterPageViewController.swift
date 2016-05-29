@@ -8,6 +8,8 @@
 
 import UIKit
 
+var scrollViewPanGestureRecognzier: UIPanGestureRecognizer!
+
 class MasterPageViewController: UIPageViewController {
 
     /*
@@ -23,14 +25,13 @@ class MasterPageViewController: UIPageViewController {
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         // The view controllers will be shown in this order
-        return [self.newColoredViewController("Green"),
-                self.newColoredViewController("Red"),
-                self.newColoredViewController("Blue")]
+        return [self.newColoredViewController("PassingTVController"),
+                self.newColoredViewController("SemesterTVController"),
+                self.newColoredViewController("FailTVController")]
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         dataSource = self
         delegate = self
         
@@ -40,7 +41,18 @@ class MasterPageViewController: UIPageViewController {
         
         masterDelegate?.masterPageViewController(self,
                                                      didUpdatePageCount: orderedViewControllers.count)
+    
+        for view in self.view.subviews {
+            if view.isKindOfClass(UIScrollView.self) {
+                let scrollView: UIScrollView = view as! UIScrollView
+                scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
+                scrollViewPanGestureRecognzier.delegate = self
+                scrollView.addGestureRecognizer(scrollViewPanGestureRecognzier)
+            }
+        }
+    
     }
+
     
     /**
      Scrolls to the next view controller.
@@ -69,9 +81,8 @@ class MasterPageViewController: UIPageViewController {
         }
     }
     
-    private func newColoredViewController(color: String) -> UIViewController {
-        return UIStoryboard(name: "Main", bundle: nil) .
-            instantiateViewControllerWithIdentifier("\(color)ViewController")
+    private func newColoredViewController(controllerIdentifier: String) -> UIViewController {
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(controllerIdentifier)
     }
     
     /**
@@ -162,7 +173,39 @@ extension MasterPageViewController: UIPageViewControllerDelegate {
                                                transitionCompleted completed: Bool) {
         notifymasterDelegateOfNewIndex()
     }
+}
+
+extension MasterPageViewController: UIGestureRecognizerDelegate {
     
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
+    
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == scrollViewPanGestureRecognzier {
+            
+            let restrictValue:CGFloat = 50
+            // 标识不可滑动区域
+//            let recognizerView: UIView = UIView(frame: CGRectMake(0, 0, 100, self.view.frame.height))
+//            recognizerView.backgroundColor = UIColor.darkGrayColor()
+//            self.view.addSubview(recognizerView)
+            
+            // 标识
+//            let lb: UILabel = UILabel(frame: CGRectMake(90,180, 200, 50))
+//            lb.text = "不可以滚动的区域"
+//            lb.textColor = UIColor.whiteColor()
+//            recognizerView.addSubview(lb)
+            
+            let locationInView: CGPoint = gestureRecognizer.locationInView(self.view)
+            
+            if  locationInView.x > restrictValue {
+                return false
+            } else {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 protocol MasterPageViewControllerDelegate: class {

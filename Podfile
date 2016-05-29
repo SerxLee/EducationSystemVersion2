@@ -4,7 +4,10 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'EducationSystem' do
-	pod 'AFNetworking', '~> 3.0'
+	pod 'Kingfisher', '~> 2.4'	
+	pod 'Masonry'
+	pod 'AFNetworking', '2.5.0'
+        pod 'Qiniu', '~> 7.0'
 	pod 'Observable-Swift', '~> 0.6.0'
 end
 
