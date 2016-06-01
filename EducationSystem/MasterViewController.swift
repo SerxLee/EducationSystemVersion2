@@ -9,15 +9,23 @@
 import UIKit
 import Observable
 
+let themeColor: UIColor = UIColor(red: 0/255.0, green: 175/255.0, blue: 240/255.0, alpha: 1)
+
 public var height: Observable<CGFloat> = Observable(0)
 public var currentHeight: CGFloat = 0.0
 public var limHeight: CGFloat = 0.0
+public var currentAlpha: CGFloat = 0.0
 
 class MasterViewController: UIViewController {
     
     var personalView: PersonSideBar!
-
-
+    
+    //situation container view
+    @IBOutlet weak var situationContainer: UIView!
+    
+    @IBOutlet weak var titleBarSegment: UISegmentedControl!
+    @IBOutlet weak var leftBarItem: UIBarButtonItem!
+    @IBOutlet weak var rightBarItem: UIBarButtonItem!
     @IBOutlet weak var firstView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var firstViewHeight: NSLayoutConstraint!
@@ -26,11 +34,18 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var semesterButton: UIButton!
     @IBOutlet weak var failButton: UIButton!
     
+    //
+    @IBOutlet weak var passingButtonToLeftBargin: NSLayoutConstraint!
+    @IBOutlet weak var failButtonToRightBargin: NSLayoutConstraint!
+    
     var type: String!
     var userName: String!
     var passWord: String!
     var rawHeight: CGFloat!
     var minHeight: CGFloat!
+    
+    var controlBarLenght: CGFloat = MasterViewController.getUIScreenSize(true) / 3.0
+    var pageIndex: Int = 0
     
     var screenEdgeRecognizer: UIScreenEdgePanGestureRecognizer!
     var currentRadius:CGFloat = 0.0
@@ -52,24 +67,44 @@ class MasterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        initView()
+        self.initView()
     }
     
     func initView() {
+        let color: UIColor = UIColor(red: 0/255.0, green: 175/255.0, blue: 240/255.0, alpha: 1)
+
+        let img = UIImage(named: "search")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        self.rightBarItem.image = img
+        self.rightBarItem.style = .Plain
+        
+        let img2 = UIImage(named: "menu")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        self.leftBarItem.image = img2
+        self.leftBarItem.style = .Plain
+        
+        //set segmentControl's properties
+        
+        self.titleBarSegment.tintColor = UIColor.whiteColor() 
+        
         self.classViewModel = self.logicManager.classViewModel
         self.type = "passing"
         self.classViewModel.userName = self.userName
         self.classViewModel.passWord = self.passWord
         
+        //situation container view
+        self.situationContainer.alpha = 0
+        
+        //side menu
         self.personalView = PersonSideBar.init(frame: self.view.frame)
         self.personalView.alpha = 0
         UIApplication.sharedApplication().keyWindow?.addSubview(self.personalView)
         
-        let color: UIColor = UIColor(red: 0/255.0, green: 175/255.0, blue: 240/255.0, alpha: 1)
         self.navigationController?.navigationBar.lt_setBackgroundColor(color.colorWithAlphaComponent(0))
+        self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.hideBottomHairline()
         
         self.rawHeight = (MasterViewController.getUIScreenSize(false) / 3.0)
-        self.minHeight = MasterViewController.getUIScreenSize(false) / 5.0
+//        self.minHeight = MasterViewController.getUIScreenSize(false) / 5.0
+        self.minHeight = 90.0
         self.firstViewHeight.constant = rawHeight
         currentHeight = rawHeight
         height.afterChange += {old, new in
@@ -77,14 +112,13 @@ class MasterViewController: UIViewController {
             self.changHeight()
         }
         
-//        let slideGestrue: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.showSideMenu))
-//        slideGestrue.direction = .Right
-//        self.view.addGestureRecognizer(slideGestrue)
-        
-        self.screenEdgeRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.showSideMenu))
+        self.screenEdgeRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.dragSideMenu(_:)))
         self.screenEdgeRecognizer.edges = .Left
         self.screenEdgeRecognizer.delegate = self
         self.view.addGestureRecognizer(screenEdgeRecognizer)
+        
+        self.passingButtonToLeftBargin.constant = (self.controlBarLenght - 71.0) / 2.0
+        self.failButtonToRightBargin.constant = (self.controlBarLenght - 46) / 2.0
     }
     
     
@@ -108,6 +142,40 @@ class MasterViewController: UIViewController {
         self.personalView.userKey = self.userName
         self.personalView.showPersonal()
     }
+    func dragSideMenu(sender: UIScreenEdgePanGestureRecognizer){
+        if sender.state == .Ended {
+            self.personalView.dragSideBarEnd()
+        }
+        else if sender.state == .Began{
+            self.personalView.userKey = self.userName
+        }
+        else {
+            let dragPoint = sender.translationInView(self.view)
+            self.personalView.showPersionalViaDrag(dragPoint)
+        }
+    }
+    
+
+    @IBAction func segmentAction(sender: UISegmentedControl) {
+        let title = self.titleBarSegment.titleForSegmentAtIndex(self.titleBarSegment.selectedSegmentIndex)!
+//        NSLog(title)
+        if title == "学习情况" {
+            UIView.animateWithDuration(0.2, animations: {
+                self.situationContainer.alpha = 1.0
+                self.navigationController?.navigationBar.lt_setBackgroundColor(themeColor.colorWithAlphaComponent(1.0))
+            })
+            startLoadChart <- 1
+//            let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("SituationView")
+//            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else if title == "成绩总览" {
+            UIView.animateWithDuration(0.2, animations: {
+                self.situationContainer.alpha = 0
+                self.navigationController?.navigationBar.lt_setBackgroundColor(themeColor.colorWithAlphaComponent(currentAlpha))
+            })
+            startLoadChart <- 0
+        }
+    }
 
     @IBAction func clickSemesterButton(sender: UIButton) {
         self.type = "semester"
@@ -126,6 +194,7 @@ class MasterViewController: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
     }
     
@@ -154,6 +223,7 @@ extension MasterViewController: UIGestureRecognizerDelegate {
 
 extension MasterViewController: MasterPageViewControllerDelegate {
     
+    //page View ture to page and reload the table view
     func masterPageViewController(masterPageViewController: MasterPageViewController, didUpdatePageIndex index: Int) {
         self.logicManager.getDataAfterScroll(index)
     }

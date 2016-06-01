@@ -44,23 +44,40 @@ class PassingViewController: UIViewController {
 
     /*
     // MARK: - Navigation
-
+     */
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+//        if segue.identifier == "PassingToDetail" {
+//            let nextController = segue.destinationViewController as! CourseDetailViewController
+//        }
     }
-    */
+ 
     var lim: CGFloat = 0.0
+    
 }
 
 let NAVBAR_CHANGE_POINT: CGFloat = 0.0
 
 extension PassingViewController: UITableViewDelegate {
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let row = indexPath.row
+        let indexOfSection = indexPath.section
+        var stringOfSection: String!
+        stringOfSection = allSemesters[indexOfSection]
+        let limaa = cacheCourseData[type]!
+        dict = (limaa[stringOfSection]! as! NSArray)[row] as? NSDictionary
+        
+        //deSelected the cell while it is the didSelected statue
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        let minHeight: CGFloat = (MasterViewController.getUIScreenSize(false) / 5.0)
+//        let minHeight: CGFloat = (MasterViewController.getUIScreenSize(false) / 5.0)
         let rawHeight: CGFloat = (MasterViewController.getUIScreenSize(false) / 3.0)
+        let minHeight: CGFloat = 90.0
         let maxCha: CGFloat = rawHeight - minHeight
         let color: UIColor = UIColor(red: 0/255, green: 175/255, blue: 240/255, alpha: 1)
         let y = scrollView.contentOffset.y
@@ -69,6 +86,7 @@ extension PassingViewController: UITableViewDelegate {
         if offsetY > NAVBAR_CHANGE_POINT {
             height <- offsetY
             let alpha:CGFloat = 1.0 - ((maxCha - offsetY) / maxCha)
+            currentAlpha = alpha
             self.navigationController?.navigationBar.lt_setBackgroundColor(color.colorWithAlphaComponent(alpha))
 //            lim = scrollView.contentOffset.y
         }

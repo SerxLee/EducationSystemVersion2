@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		39036B125E405982F3CAADD6 /* Pods_EducationSystemUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B831D535811542C090398E17 /* Pods_EducationSystemUITests.framework */; };
 		92EB3AFDC7A3E6F11EA39731 /* Pods_EducationSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A2918E2491D4645E68F9B88 /* Pods_EducationSystem.framework */; };
+		9B2AC0091CFC5A4900A19379 /* -1.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B2AC0081CFC5A4900A19379 /* -1.json */; };
+		9B2AC00B1CFC5A9700A19379 /* NSDictionary+LoadLocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AC00A1CFC5A9700A19379 /* NSDictionary+LoadLocal.swift */; };
+		9B2AC0581CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AC0571CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift */; };
+		9B2AC05A1CFDB55600A19379 /* HamburgerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AC0591CFDB55600A19379 /* HamburgerButton.swift */; };
+		9B2AC06D1CFF19AE00A19379 /* Double+SaveTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AC06C1CFF19AE00A19379 /* Double+SaveTwo.swift */; };
 		9B56341D1CF5A7750082E1CE /* UINavigationBar+LTNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B56341C1CF5A7750082E1CE /* UINavigationBar+LTNavigationBar.swift */; };
 		9B5634261CF5D0570082E1CE /* MasterLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5634201CF5D0570082E1CE /* MasterLogicManager.swift */; };
 		9B5634271CF5D0570082E1CE /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5634211CF5D0570082E1CE /* MasterViewController.swift */; };
@@ -38,6 +43,11 @@
 		9B89B6461CFA8EE5004EED28 /* uploadTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B89B6451CFA8EE5004EED28 /* uploadTest.png */; };
 		9B89B64A1CFA9644004EED28 /* PersonSideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B89B6491CFA9644004EED28 /* PersonSideBar.swift */; };
 		9B89B64E1CFADE0E004EED28 /* UIImage+reduceImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B89B64D1CFADE0E004EED28 /* UIImage+reduceImage.swift */; };
+		9B89B6651CFBEB81004EED28 /* segView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B89B6641CFBEB81004EED28 /* segView.swift */; };
+		9B89B66E1CFC1798004EED28 /* SearchLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B89B6681CFC1798004EED28 /* SearchLogicManager.swift */; };
+		9B89B66F1CFC1798004EED28 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B89B6691CFC1798004EED28 /* SearchViewController.swift */; };
+		9B89B6721CFC1798004EED28 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B89B66C1CFC1798004EED28 /* SearchViewModel.swift */; };
+		9B8FDCAF1CFC4987003A9A4A /* CommentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8FDCAE1CFC4987003A9A4A /* CommentTVCell.swift */; };
 		9BC1C4661CF28E4800EB87CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1C4651CF28E4800EB87CF /* AppDelegate.swift */; };
 		9BC1C46B1CF28E4800EB87CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BC1C4691CF28E4800EB87CF /* Main.storyboard */; };
 		9BC1C46D1CF28E4800EB87CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BC1C46C1CF28E4800EB87CF /* Assets.xcassets */; };
@@ -75,6 +85,11 @@
 		6097E737130EBA02AB4694B1 /* Pods-EducationSystem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EducationSystem.release.xcconfig"; path = "Pods/Target Support Files/Pods-EducationSystem/Pods-EducationSystem.release.xcconfig"; sourceTree = "<group>"; };
 		70FAC8609860215E77626BAA /* Pods-EducationSystemTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EducationSystemTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EducationSystemTests/Pods-EducationSystemTests.debug.xcconfig"; sourceTree = "<group>"; };
 		97B9A6EFF360AC2BA29A1301 /* Pods-EducationSystemUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EducationSystemUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EducationSystemUITests/Pods-EducationSystemUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		9B2AC0081CFC5A4900A19379 /* -1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "-1.json"; sourceTree = "<group>"; };
+		9B2AC00A1CFC5A9700A19379 /* NSDictionary+LoadLocal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDictionary+LoadLocal.swift"; sourceTree = "<group>"; };
+		9B2AC0571CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+HideAndShowBottomHairline.swift"; sourceTree = "<group>"; };
+		9B2AC0591CFDB55600A19379 /* HamburgerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerButton.swift; sourceTree = "<group>"; };
+		9B2AC06C1CFF19AE00A19379 /* Double+SaveTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+SaveTwo.swift"; sourceTree = "<group>"; };
 		9B56341C1CF5A7750082E1CE /* UINavigationBar+LTNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+LTNavigationBar.swift"; sourceTree = "<group>"; };
 		9B5634201CF5D0570082E1CE /* MasterLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterLogicManager.swift; sourceTree = "<group>"; };
 		9B5634211CF5D0570082E1CE /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +120,11 @@
 		9B89B6451CFA8EE5004EED28 /* uploadTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uploadTest.png; sourceTree = "<group>"; };
 		9B89B6491CFA9644004EED28 /* PersonSideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSideBar.swift; sourceTree = "<group>"; };
 		9B89B64D1CFADE0E004EED28 /* UIImage+reduceImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+reduceImage.swift"; sourceTree = "<group>"; };
+		9B89B6641CFBEB81004EED28 /* segView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = segView.swift; sourceTree = "<group>"; };
+		9B89B6681CFC1798004EED28 /* SearchLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchLogicManager.swift; sourceTree = "<group>"; };
+		9B89B6691CFC1798004EED28 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		9B89B66C1CFC1798004EED28 /* SearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		9B8FDCAE1CFC4987003A9A4A /* CommentTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTVCell.swift; sourceTree = "<group>"; };
 		9BC1C4621CF28E4800EB87CF /* EducationSystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EducationSystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BC1C4651CF28E4800EB87CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BC1C46A1CF28E4800EB87CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -191,11 +211,21 @@
 		9B85C86B1CF7F8B60029E244 /* CourseDetail */ = {
 			isa = PBXGroup;
 			children = (
-				9B85C86D1CF7F9A40029E244 /* CourseDetailLogicManager.swift */,
 				9B85C86E1CF7F9A40029E244 /* CourseDetailViewController.swift */,
+				9B85C86D1CF7F9A40029E244 /* CourseDetailLogicManager.swift */,
 				9B85C8711CF7F9A40029E244 /* CourseDetailViewModel.swift */,
 			);
 			name = CourseDetail;
+			sourceTree = "<group>";
+		};
+		9B89B6661CFC1772004EED28 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				9B89B6691CFC1798004EED28 /* SearchViewController.swift */,
+				9B89B6681CFC1798004EED28 /* SearchLogicManager.swift */,
+				9B89B66C1CFC1798004EED28 /* SearchViewModel.swift */,
+			);
+			name = Search;
 			sourceTree = "<group>";
 		};
 		9BC1C4591CF28E4800EB87CF = {
@@ -225,9 +255,11 @@
 			children = (
 				9BC1C46C1CF28E4800EB87CF /* Assets.xcassets */,
 				9B89B6411CFA8478004EED28 /* ImageViewController.swift */,
+				9B89B6641CFBEB81004EED28 /* segView.swift */,
 				9BC1C4981CF28FB900EB87CF /* Side Page */,
 				9BC1C4931CF28EBA00EB87CF /* Login */,
 				9B56341E1CF5D0360082E1CE /* master */,
+				9B89B6661CFC1772004EED28 /* Search */,
 				9B85C86B1CF7F8B60029E244 /* CourseDetail */,
 				9BC1C4991CF28FD900EB87CF /* Situation */,
 				9BC1C4951CF28F1000EB87CF /* Comment */,
@@ -270,9 +302,11 @@
 		9BC1C4951CF28F1000EB87CF /* Comment */ = {
 			isa = PBXGroup;
 			children = (
-				9B5634481CF6A5940082E1CE /* CommentLogicManager.swift */,
 				9B5634491CF6A5940082E1CE /* CommentViewController.swift */,
+				9B5634481CF6A5940082E1CE /* CommentLogicManager.swift */,
 				9B56344C1CF6A5940082E1CE /* CommentViewModel.swift */,
+				9B8FDCAE1CFC4987003A9A4A /* CommentTVCell.swift */,
+				9B2AC0591CFDB55600A19379 /* HamburgerButton.swift */,
 			);
 			name = Comment;
 			sourceTree = "<group>";
@@ -285,11 +319,15 @@
 				9B5634531CF6B5E40082E1CE /* UIView+HandyFrame.swift */,
 				9B85C8691CF7F88E0029E244 /* NSDate+Comment.swift */,
 				9B89B64D1CFADE0E004EED28 /* UIImage+reduceImage.swift */,
+				9B2AC00A1CFC5A9700A19379 /* NSDictionary+LoadLocal.swift */,
+				9B2AC0571CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift */,
 				9B89B6431CFA883C004EED28 /* EducationSystem-Bridging-Header.h */,
 				9B5634551CF739110082E1CE /* userName.plist */,
 				9B89B6451CFA8EE5004EED28 /* uploadTest.png */,
+				9B2AC0081CFC5A4900A19379 /* -1.json */,
 				9BC1C4651CF28E4800EB87CF /* AppDelegate.swift */,
 				9BC1C4711CF28E4800EB87CF /* Info.plist */,
+				9B2AC06C1CFF19AE00A19379 /* Double+SaveTwo.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -314,8 +352,8 @@
 		9BC1C4991CF28FD900EB87CF /* Situation */ = {
 			isa = PBXGroup;
 			children = (
-				9B56343C1CF6A5680082E1CE /* SituationLogicManager.swift */,
 				9B56343D1CF6A5680082E1CE /* SituationViewController.swift */,
+				9B56343C1CF6A5680082E1CE /* SituationLogicManager.swift */,
 				9B5634401CF6A5680082E1CE /* SituationViewModel.swift */,
 			);
 			name = Situation;
@@ -437,6 +475,7 @@
 				9B89B6461CFA8EE5004EED28 /* uploadTest.png in Resources */,
 				9B5634561CF739110082E1CE /* userName.plist in Resources */,
 				9BC1C4701CF28E4800EB87CF /* LaunchScreen.storyboard in Resources */,
+				9B2AC0091CFC5A4900A19379 /* -1.json in Resources */,
 				9BC1C46D1CF28E4800EB87CF /* Assets.xcassets in Resources */,
 				9BC1C46B1CF28E4800EB87CF /* Main.storyboard in Resources */,
 			);
@@ -588,9 +627,15 @@
 			files = (
 				9B56344F1CF6A5940082E1CE /* CommentViewController.swift in Sources */,
 				9B85C8731CF7F9A40029E244 /* CourseDetailLogicManager.swift in Sources */,
+				9B89B66E1CFC1798004EED28 /* SearchLogicManager.swift in Sources */,
+				9B89B6651CFBEB81004EED28 /* segView.swift in Sources */,
+				9B2AC00B1CFC5A9700A19379 /* NSDictionary+LoadLocal.swift in Sources */,
+				9B2AC05A1CFDB55600A19379 /* HamburgerButton.swift in Sources */,
 				9B5634271CF5D0570082E1CE /* MasterViewController.swift in Sources */,
+				9B89B6721CFC1798004EED28 /* SearchViewModel.swift in Sources */,
 				9B5634321CF5E2D30082E1CE /* MasterPageViewController.swift in Sources */,
 				9B6B790E1CF559950008F50C /* CurrentDevice.swift in Sources */,
+				9B2AC0581CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift in Sources */,
 				9B89B64E1CFADE0E004EED28 /* UIImage+reduceImage.swift in Sources */,
 				9BC1C4A11CF291D700EB87CF /* LoginViewModel.swift in Sources */,
 				9BC1C4661CF28E4800EB87CF /* AppDelegate.swift in Sources */,
@@ -604,6 +649,8 @@
 				9B5634341CF69DAE0082E1CE /* PassingViewController.swift in Sources */,
 				9B5634261CF5D0570082E1CE /* MasterLogicManager.swift in Sources */,
 				9B56344E1CF6A5940082E1CE /* CommentLogicManager.swift in Sources */,
+				9B89B66F1CFC1798004EED28 /* SearchViewController.swift in Sources */,
+				9B2AC06D1CFF19AE00A19379 /* Double+SaveTwo.swift in Sources */,
 				9B5634421CF6A5680082E1CE /* SituationLogicManager.swift in Sources */,
 				9B6B78F11CF2C0AE0008F50C /* CouseCache.swift in Sources */,
 				9B85C86A1CF7F88E0029E244 /* NSDate+Comment.swift in Sources */,
@@ -612,6 +659,7 @@
 				9B5634381CF69DD10082E1CE /* SemesterViewController.swift in Sources */,
 				9B56341D1CF5A7750082E1CE /* UINavigationBar+LTNavigationBar.swift in Sources */,
 				9B89B64A1CFA9644004EED28 /* PersonSideBar.swift in Sources */,
+				9B8FDCAF1CFC4987003A9A4A /* CommentTVCell.swift in Sources */,
 				9B6B78C71CF299630008F50C /* HistoryDataModel.swift in Sources */,
 				9B6B78E11CF29B9F0008F50C /* LoginLogicManager.swift in Sources */,
 				9B5634431CF6A5680082E1CE /* SituationViewController.swift in Sources */,

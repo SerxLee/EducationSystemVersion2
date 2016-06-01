@@ -51,6 +51,7 @@ class LoginViewController: UIViewController {
         //add the action to userName,
         self.userName.addTarget(self, action: #selector(self.userNameChange(_:)),forControlEvents: .EditingChanged)
         self.userName.addTarget(self, action: #selector(self.didEndEditing(_:)), forControlEvents: .EditingDidEnd)
+        self.passWord.addTarget(self, action: #selector(self.pawBeginEdit), forControlEvents: UIControlEvents.EditingDidBegin)
         //        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.TestNotificationCenter(_:)), name: LoginLogicManager.FLICKR_DATA_COMPLETE, object: nil)
         self.logicManager.courseChange.afterChange += { old, new in
 //            print("\(old) change to \(new)")
@@ -62,6 +63,9 @@ class LoginViewController: UIViewController {
         }
     }
 
+    func pawBeginEdit(){
+        self.hideHistoryTableView(true)
+    }
     
     func didEndEditing(textFile: UITextField) {
         self.hideHistoryTableView(false)
@@ -69,13 +73,12 @@ class LoginViewController: UIViewController {
     
     func userNameChange(textFiled: UITextField) {
         if let statueCode = logicManager.didChange(textFiled) {
-//            print(statueCode)
             if statueCode == 0 {
-                hideHistoryTableView(true)
+                self.hideHistoryTableView(true)
             }
             else {
                 let height = CGFloat(statueCode)
-                hideHistoryTableView(false, tableViewHeight: height)
+                self.hideHistoryTableView(false, tableViewHeight: height)
             }
         }
     }
@@ -84,15 +87,15 @@ class LoginViewController: UIViewController {
         hide the hitory table view:
             just set the .hiden to true
     */
-    private func hideHistoryTableView(hiden: Bool, tableViewHeight: CGFloat = 8.0) {
+    private func hideHistoryTableView(hiden: Bool, tableViewHeight: CGFloat = 0.0) {
         self.historyTableView.hidden = hiden
-        self.pasTitleToUsernameContraint.constant = tableViewHeight
-        if !hiden {
-            self.historyTableView.reloadData()
-        }
-        UIView.animateWithDuration(1.0) { 
-            self.tableViewHight.constant = tableViewHeight
+        if hiden {
+            self.pasTitleToUsernameContraint.constant = 8.0
+        }else {
             self.pasTitleToUsernameContraint.constant = tableViewHeight
+            self.historyTableView.reloadData()
+            self.tableViewHight.constant = tableViewHeight
+
         }
     }
     
@@ -120,7 +123,6 @@ class LoginViewController: UIViewController {
     @IBAction func LoginBottonClick(sender: AnyObject) {
         self.textFieldShouldReturn(userName)
         self.textFieldShouldReturn(passWord)
-        self.logicManager.checkLoginInformation(userName.text!, password: passWord.text!)
     }
 }
 
@@ -130,7 +132,9 @@ class LoginViewController: UIViewController {
     */
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        UIView.animateWithDuration(1.0) { self.titleToTopBoundContraint.constant = titleSlideLenght }
+        UIView.animateWithDuration(1.0) {
+            self.titleToTopBoundContraint.constant = titleSlideLenght
+        }
         return true
     }
     
@@ -138,9 +142,10 @@ extension LoginViewController: UITextFieldDelegate {
         if textField == userName {
             self.userName.resignFirstResponder()
             self.passWord.becomeFirstResponder()
-            pasTitleToUsernameContraint.constant = 8.0
+            self.hideHistoryTableView(true)
         }
         else if textField ==  passWord {
+            self.logicManager.checkLoginInformation(userName.text!, password: passWord.text!)
             self.passWord.resignFirstResponder()
             UIView.animateWithDuration(1.0, animations: {
                 self.titleToTopBoundContraint.constant = noSlideLengh

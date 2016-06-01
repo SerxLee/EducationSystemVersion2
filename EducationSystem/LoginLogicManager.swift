@@ -39,14 +39,16 @@ class LoginLogicManager: NSObject{
     func checkLoginInformation(username: String, password: String) {
         let myParameters: Dictionary = ["username":username, "password": password, "type": "passing"]
         loginSession.POST(classViewModel.checkURL, parameters: myParameters, success: {  (dataTask, operation) -> Void in
-            let error = operation!["err"] as! Int
-            if error == 0 {
+            
+            let err = operation!["err"] as! Int
+            if err == 0 {
+                NSLog("login success")
 //                print(operation)
                 let lim_data = operation!["data"] as! NSDictionary
                 self.classViewModel.courseDataArray = lim_data["info"] as? [NSDictionary]
                 studentInfo = lim_data["school_roll_info"] as? NSDictionary
                 
-                self.getDataFormLoginView()
+                self.putDataToCache()
                 
                 self.courseChange <- (0 - self.courseChange.value) ///change the Observable propertise and notifica the login view to update
                 /**
@@ -75,18 +77,20 @@ class LoginLogicManager: NSObject{
                 }
                 self.classViewModel.LoginSuccess <- true
             }
+            else if err == 1{
+                NSLog("fine error while login")
+//                print(operation)
+                let reason = operation["reason"] as! String
+                NSLog(reason)
+            }
             else {
-                print(operation!["reason"])
-                let message = operation!["reason"] as! String
-                print(message)
+                NSLog("unknow error while login")
+                let reason = operation["reason"] as! String
+                NSLog(reason)
             }
         }) {  (dataTask, error) -> Void in
-            print(error.code)
-//            var message: String?
-//            let errorCode = error.code
-//            if errorCode == -1009{
-//                message = "无法连接网络..."
-//            }
+            NSLog("network error while login")
+            print(error)
         }
     }
     
@@ -151,7 +155,7 @@ class LoginLogicManager: NSObject{
         noSlideLengh = self.classViewModel.deviceHeight / 4
         titleSlideLenght = self.classViewModel.deviceHeight / 6
     }
-    func getDataFormLoginView() {
+    func putDataToCache() {
         var currentTypeSemesters = [String]()
         let currentTypeSemesterCount = self.classViewModel.courseDataArray!.count
         let currentTypeAllCourse = NSMutableDictionary()

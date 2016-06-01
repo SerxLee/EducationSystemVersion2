@@ -22,12 +22,11 @@ class MasterLogicManager: NSObject {
         let URL = "https://usth.eycia.me/Score?username=\(self.classViewModel.userName)&password=\(self.classViewModel.passWord)&type=\(getType)"
         loginSession.POST(URL, parameters: nil, success: { (dataTask, response)
             in
-            let error = response!["err"] as! Int
+            let err = response!["err"] as! Int
             //the data back is not error
-            if error == 0 {
-//                print(response)
+            if err == 0 {
+                NSLog("get more data success")
                 let currentTypeData = response!["data"] as! NSDictionary
-                
                 var currentTypeSemesters = [String]()
                 self.classViewModel.courseDataArray = currentTypeData["info"] as? [NSDictionary]
                 let currentTypeSemesterCount = self.classViewModel.courseDataArray?.count
@@ -43,25 +42,28 @@ class MasterLogicManager: NSObject {
                 cacheSemesterNum.addEntriesFromDictionary([getType : currentTypeSemesterCount!])
                 cacheCourseData.addEntriesFromDictionary([getType : currentTypeAllCourse])
                 switch getType {
-                    case "semester":
+                case "semester":
                     semesterOK <- true
-                    case "fail":
+                case "fail":
                     failOK <- true
                 default:
                     break
                 }
             }
+            else if err == 1{
+                NSLog("fine error while get more data")
+                let reason = response["reason"] as! String
+                NSLog(reason)
+            }
             else {
-                NSLog("获取数据失败")
+                NSLog("unknow error while get more data")
+                let reason = response["reason"] as! String
+                NSLog(reason)
             }
             })
         {  (dataTask, error) -> Void in
             NSLog(error.localizedDescription)
         }
-    }
- 
-    func changeType(){
-        
     }
     
     func checkCurrentTypeCourseIsExist(typeGet: String) {
@@ -76,7 +78,7 @@ class MasterLogicManager: NSObject {
          
          */
         if cacheCourseData[typeGet] == nil || cacheSemesterNum[typeGet] == nil || cacheSemester[typeGet] == nil{
-            getDataViaType(typeGet)
+            self.getDataViaType(typeGet)
         }else{
             switch typeGet {
             case "semester":
@@ -89,6 +91,7 @@ class MasterLogicManager: NSObject {
         }
     }
     
+    
     func getDataAfterScroll(index: Int) {
         if index == 0 {
             self.type = "passing"
@@ -97,9 +100,9 @@ class MasterLogicManager: NSObject {
             self.type = "semester"
         }
         else {
-            self.type = "file"
+            self.type = "fail"
         }
-        self.getDataViaType(self.type)
+        self.checkCurrentTypeCourseIsExist(self.type)
     }
     /*
     func getDataFormLoginView() {

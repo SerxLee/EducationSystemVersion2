@@ -20,8 +20,11 @@ PODS:
   - AFNetworking/UIKit (2.5.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - Charts (2.2.5):
+    - Charts/Core (= 2.2.5)
+  - Charts/Core (2.2.5)
+  - FDFullscreenPopGesture (1.1)
   - HappyDNS (0.3.3.1)
-  - Kingfisher (2.4.1)
   - Masonry (1.0.0)
   - Observable-Swift (0.6.0)
   - Qiniu (7.0.19.1):
@@ -30,19 +33,21 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (= 2.5.0)
-  - Kingfisher (~> 2.4)
+  - Charts (~> 2.2.4)
+  - FDFullscreenPopGesture (= 1.1)
   - Masonry
   - Observable-Swift (~> 0.6.0)
   - Qiniu (~> 7.0)
 
 SPEC CHECKSUMS:
   AFNetworking: 96ac9bf3eda33582701cb1fcc5b896aa1e20311e
+  Charts: b48fcc8d7190de910ff9e9748f5360c8ea7856e5
+  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   HappyDNS: 816fceb07c964675bba4ffe668a7c5fc4ffdfe7e
-  Kingfisher: 41aed5b6c1ed8fa98cf6d75283ce89cf7890f517
   Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   Observable-Swift: c63b9fc990703b135450cb5bd3541022384867ae
   Qiniu: ceb88a496d556bdb8f8e0bddd83a1639dfe5f84b
 
-PODFILE CHECKSUM: fbf2b05f20e8afb6bb4b4825ce7d7d2a5ccf7b13
+PODFILE CHECKSUM: 47fe92aa9de4a15ec50553ff46cd7560d8056c53
 
 COCOAPODS: 1.0.0.beta.2

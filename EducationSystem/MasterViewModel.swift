@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Observable
 
+var cacheState: Observable<Int> = Observable(0)
 
 class MasterViewModel {
     

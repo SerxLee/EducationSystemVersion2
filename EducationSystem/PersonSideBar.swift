@@ -234,6 +234,37 @@ class PersonSideBar: UIView {
             })
         }
     }
+    func showPersionalViaDrag(point: CGPoint) {
+        if self.alpha == 0{
+            UIView.animateWithDuration(0.1) {
+                self.alpha = 1
+            }
+        }
+        else {
+            if point.x - barWidth > -20{
+                self.showPersonal()
+            }
+            else {
+                self.backgroundView.frame = CGRectMake(-barWidth + point.x, self.backgroundView.frame.origin.y, self.backgroundView.frame.size.width, self.backgroundView.frame.size.height)
+            }
+        }
+    }
+    
+    func dragSideBarEnd(){
+        let currentWidth = self.backgroundView.frame.origin.x
+        if currentWidth < (-barWidth / 2) {
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                self.backgroundView.frame = CGRectMake(-self.backgroundView.frame.size.width, self.backgroundView.frame.origin.y, self.backgroundView.frame.size.width, self.backgroundView.frame.size.height)
+            }) { (finshed) -> Void in
+                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                    self.alpha = 0
+                })
+            }
+        }
+        else {
+            self.showPersonal()
+        }
+    }
     
     func getToken(){
         loginSession.GET(tokenURL, parameters: nil, success: { (dataTask, respons) in
@@ -241,9 +272,13 @@ class PersonSideBar: UIView {
             if err == 0 {
                 self.token = respons["data"] as! String
                 print(self.token)
-
+            }
+            else {
+                let reason = respons["reason"] as! String
+                NSLog(reason)
             }
         }) { (dataTask, error) in
+            NSLog("netWork error while get token")
             print(error)
         }
     }
@@ -263,6 +298,7 @@ class PersonSideBar: UIView {
      */
 }
 
+// up load to qi niu
 extension PersonSideBar: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
@@ -325,12 +361,34 @@ extension PersonSideBar: UITableViewDelegate{
             self.zoomImageView.frame = frame
         }	
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
 }
 
 extension PersonSideBar: UITableViewDataSource{
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        if section == 0 {
+            return 2
+        }
+        else {
+            return 3
+        }
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 0
+        }
+        else {
+            return 25.0
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -338,12 +396,31 @@ extension PersonSideBar: UITableViewDataSource{
         if cell == nil {
             cell = UITableViewCell.init(style: .Default, reuseIdentifier: "cell")
         }
-        if indexPath.row == 0 {
-            cell?.textLabel?.text = "hehe"
+        let sectionOfIndex = indexPath.section
+        let row = indexPath.row
+        var lableText: String! = ""
+        if sectionOfIndex == 0 {
+            ///set the cell enable to be selected
+            cell?.selectionStyle = UITableViewCellSelectionStyle.None
+            if row == 0 {
+                lableText = studentInfo!["class"] as? String
+            }
+            else {
+                lableText = studentInfo!["stu_id"] as? String
+            }
         }
-        else {
-            cell?.textLabel?.text = "hehe"
+        else if sectionOfIndex == 1 {
+            if row == 0 {
+                lableText = "前往某评论区"
+            }
+            else if row == 1 {
+                lableText = "个人评论"
+            }
+            else if row == 2 {
+                lableText = "设置"
+            }
         }
+        cell?.textLabel?.text = lableText
         return cell!
     }
 }
