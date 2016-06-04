@@ -32,7 +32,7 @@ class HistoryDataModel {
         print("Saved userNameData.plist file is --> \(resultArray?.description)")
     }
     
-    func dataRead(){
+    func dataRead(clean: Bool){
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray
         let documentsDirectory = paths[0] as! NSString
         let path = documentsDirectory.stringByAppendingPathComponent("userNameData.plist")
@@ -51,10 +51,17 @@ class HistoryDataModel {
         }else{
             print("userName.plist already exits at path.")
             //TODO: clean all record
-            
             // use this to delete file from documents directory
-            //fileManager.removeItemAtPath(path, error: nil)
-            
+            if clean {
+                do {
+                    try fileManager.removeItemAtPath(path)
+                    NSLog("clean success")
+                }
+                catch let error as NSError {
+                    NSLog("fine error while clean login data")
+                    print(error.localizedDescription)
+                }
+            }
         }
         if let resultArray = NSArray(contentsOfFile: path) as? [String]{
             print("Loaded userNameData.plist file is --> \(resultArray.description)")

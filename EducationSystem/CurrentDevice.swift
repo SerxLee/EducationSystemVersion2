@@ -35,7 +35,11 @@ class currentDevice {
          iPad2                 : 1024 x 768
          iPad mini2            : 1024 x 768
          iPad mini             : 1024 x 768
-         */
+         
+         scroll view 
+         6 <=  187.5 = (width / 2)              before
+           >=  562.5 = (width / 2) + width      next
+        */
         
         var deviceType: DeviceType = .iphone5
         

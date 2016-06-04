@@ -47,6 +47,10 @@ class SituationViewController: UIViewController {
     
     @IBOutlet weak var lineLeftContrainer: NSLayoutConstraint!
     @IBOutlet weak var line2RightContrainer: NSLayoutConstraint!
+    
+    @IBOutlet weak var firstChartHeightContrainer: NSLayoutConstraint!
+    @IBOutlet weak var secondChartHeightContrainer: NSLayoutConstraint!
+    
     let semesters2 = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"]
     let years = ["Year1", "Year2", "Year3", "Year4"]
     
@@ -95,6 +99,7 @@ class SituationViewController: UIViewController {
 //        NSLog("public")
 //        print(self.classViewModel.courseDataPublic)
 //        print(self.classViewModel.allSemesters)
+//        print(self.classViewModel.scoreTerm)
         
         startLoadChart.afterChange += { old, new in
             if new == 1 {
@@ -114,9 +119,9 @@ class SituationViewController: UIViewController {
         self.scoreLineChartView.legend.enabled = false
         self.scoreLineChartView.scaleYEnabled = false
         self.scoreLineChartView.scaleXEnabled = false
-        self.scoreLineChartView.pinchZoomEnabled = false
-        self.scoreLineChartView.doubleTapToZoomEnabled = false
-        self.scoreLineChartView.highlighter = nil
+        //self.scoreLineChartView.pinchZoomEnabled = false
+        //self.scoreLineChartView.doubleTapToZoomEnabled = false
+        //self.scoreLineChartView.highlighter = nil
         let Left = self.scoreLineChartView.getAxis(ChartYAxis.AxisDependency.Left)
         self.scoreLineChartView.animate(xAxisDuration: 1.5, easingOption: .EaseInOutBack)
 
@@ -146,9 +151,9 @@ class SituationViewController: UIViewController {
         self.gpaLineChartView.legend.enabled = false
         self.gpaLineChartView.scaleYEnabled = false
         self.gpaLineChartView.scaleXEnabled = false
-        self.gpaLineChartView.pinchZoomEnabled = false
-        self.gpaLineChartView.doubleTapToZoomEnabled = false
-        self.gpaLineChartView.highlighter = nil
+        //self.gpaLineChartView.pinchZoomEnabled = false
+        //self.gpaLineChartView.doubleTapToZoomEnabled = false
+        //self.gpaLineChartView.highlighter = nil
         let Left2 = self.gpaLineChartView.getAxis(ChartYAxis.AxisDependency.Left)
         self.gpaLineChartView.animate(xAxisDuration: 1.5, easingOption: .EaseInOutBack)
 
@@ -210,9 +215,19 @@ class SituationViewController: UIViewController {
         self.line2RightContrainer.constant = len2
         self.lineLeftContrainer.constant = len2
         
+        var len3 = MasterViewController.getUIScreenSize(false)
+        if len3 > 650 {
+            len3 /= 4.0
+        }
+        else {
+            len3 /= 5.0
+        }
+        self.firstChartHeightContrainer.constant = len3
+        self.secondChartHeightContrainer.constant = len3
+        
         self.scoreTotle.text = String(Double(self.classViewModel.scoreAverage).double2)
         self.greditTotle.text = String(Double(self.classViewModel.creditPublic + self.classViewModel.creditNetwork + self.classViewModel.creditSpecialized).double2)
-        self.specalGreditLabel.text = String(Double(self.classViewModel.creditSpecialized).double2)
+        self.specalGreditLabel.text = String(Double(self.classViewModel.creditSpecialized + self.classViewModel.creditPublic).double2)
         self.netGreditLabel.text = String(Double(self.classViewModel.creditNetwork).double2)
         self.gpa4Label.text = String(self.classViewModel.gpa4.double2)
         self.gpaLabel.text = String(self.classViewModel.gpa.double2)

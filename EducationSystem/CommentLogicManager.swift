@@ -42,8 +42,10 @@ class CommentLogicManager: NSObject {
         let URL = "https://usth.eycia.me/Reply/course/\(courseName)/20/\(idLast)/\(timeLast)"
         loginSession.GET(URL, parameters: nil, success: { (dataTask, response) in
             let err = response["err"] as! Int
+            print(response)
             if err == 0 {
                 self.classViewModel.dataSourse = response["data"] as! [NSDictionary]
+                print(response["data"])
                 //TODO: should observer
                 if self.classViewModel.dataSourse.isEmpty {
                     // there is new data , notise
@@ -89,13 +91,14 @@ class CommentLogicManager: NSObject {
         content = commentText
         time = NSDate().timeIntervalSince1970
         if !isNewComment {
-            let row = refeRow!
-            let refeDic: NSDictionary = self.classViewModel.dataSourse[row]
-            RefedAuthorId = refeDic["id"]!
-            refedAuthor = refeDic["authorName"]!
-            refedContent = refeDic["content"]!
-            refId = refeDic["id"]!
-            className = refeDic["className"]!
+            if let row = refeRow {
+                let refeDic: NSDictionary = self.classViewModel.dataSourse[row]
+                RefedAuthorId = refeDic["id"]!
+                refedAuthor = refeDic["authorName"]!
+                refedContent = refeDic["content"]!
+                refId = refeDic["id"]!
+                className = refeDic["className"]!
+            }
         }
         newDic = ["refedAuthor": refedAuthor, "content": content, "id": id, "time": time, "digged": digged, "authorName": authorName, "className": className, "refedContent": refedContent, "RefedAuthorId": RefedAuthorId, "digg": digg, "refId": refId, "stuId": stuId]
         
@@ -104,10 +107,9 @@ class CommentLogicManager: NSObject {
     
     func handleCommentPublic(commentText: String, isNewComment: Bool, getRow: Int?) {
         ///handle new comment
+        print(getRow)
         var newComment: NSDictionary = createOneNewComment(commentText, isNewComment: isNewComment, refeRow: getRow)
-        self.classViewModel.dataSourse.insert(newComment, atIndex: 0)
         //FIXME: notise the table view reload
-        self.classViewModel.newCommentUploadState <- 1
         var URL = "https://usth.eycia.me/Reply/course/\(self.courseName)"
         if isNewComment {
             //
@@ -115,9 +117,13 @@ class CommentLogicManager: NSObject {
         else {
             let row = getRow!
             let refeDic: NSDictionary = self.classViewModel.dataSourse[row]
+            print(self.classViewModel.dataSourse)
             let refId = refeDic["id"]!
+            print(refeDic)
             URL = "https://usth.eycia.me/Reply/course/\(self.courseName)/\(refId)/reply"
         }
+        self.classViewModel.dataSourse.insert(newComment, atIndex: 0)
+        self.classViewModel.newCommentUploadState <- 1
         let parameters: Dictionary<String, String> = ["content": commentText]
         loginSession.POST(URL, parameters: parameters, success: { (dataTask, response) in
             let err = response["err"] as! Int

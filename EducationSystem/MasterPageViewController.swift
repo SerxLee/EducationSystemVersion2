@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Observable
 
 var scrollViewPanGestureRecognzier: UIPanGestureRecognizer!
+var barSlideLenght: CGFloat = 0
 
 class MasterPageViewController: UIPageViewController {
 
@@ -45,6 +47,8 @@ class MasterPageViewController: UIPageViewController {
         for view in self.view.subviews {
             if view.isKindOfClass(UIScrollView.self) {
                 let scrollView: UIScrollView = view as! UIScrollView
+                
+                scrollView.delegate = self
                 scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
                 scrollViewPanGestureRecognzier.delegate = self
                 scrollView.addGestureRecognizer(scrollViewPanGestureRecognzier)
@@ -153,7 +157,8 @@ extension MasterPageViewController: UIPageViewControllerDataSource {
         // User is on the last view controller and swiped right to loop to
         // the first view controller.
         guard orderedViewControllersCount != nextIndex else {
-            return orderedViewControllers.first
+//            return orderedViewControllers.first
+            return nil
         }
         
         guard orderedViewControllersCount > nextIndex else {
@@ -165,12 +170,37 @@ extension MasterPageViewController: UIPageViewControllerDataSource {
     
 }
 
+
+
+extension MasterPageViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let width = MasterViewController.getUIScreenSize(true)
+        if scrollView.contentOffset.y == 0 {
+            let x = scrollView.contentOffset.x
+//            print(x)
+            //go to the back controller
+            if x <= width / 2.0 {
+                observeScrollView <- -1
+            }
+            //go to next controller
+            else if x >= width / 2.0 + width {
+                observeScrollView <- 1
+            }
+            else {
+                observeScrollView <- 2
+            }
+        }
+    }
+}
+
 extension MasterPageViewController: UIPageViewControllerDelegate {
     
     func pageViewController(pageViewController: UIPageViewController,
                             didFinishAnimating finished: Bool,
                                                previousViewControllers: [UIViewController],
                                                transitionCompleted completed: Bool) {
+        //MARK: should change
         notifymasterDelegateOfNewIndex()
     }
 }
@@ -184,7 +214,7 @@ extension MasterPageViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == scrollViewPanGestureRecognzier {
             
-            let restrictValue:CGFloat = 50
+            let restrictValue:CGFloat = MasterViewController.getUIScreenSize(true) / 20
             // 标识不可滑动区域
 //            let recognizerView: UIView = UIView(frame: CGRectMake(0, 0, 100, self.view.frame.height))
 //            recognizerView.backgroundColor = UIColor.darkGrayColor()
@@ -225,5 +255,10 @@ protocol MasterPageViewControllerDelegate: class {
      */
     func masterPageViewController(masterPageViewController: MasterPageViewController,
                                     didUpdatePageIndex index: Int)
+    
+    
+    
+//    func masterPageViewController(masterPageViewController: MasterPageViewController,
+//                                  didUpdatapageSlideLenght lenght: CGFloat)
     
 }

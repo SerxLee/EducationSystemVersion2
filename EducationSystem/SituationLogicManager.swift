@@ -29,6 +29,8 @@ class SituationLogicManager: NSObject {
         self.classViewModel.gpa4 = self.getGPADone(self.classViewModel.gpaTerm4)
         //
         self.classViewModel.gpa = self.getGPADone(self.classViewModel.gpaTerm)
+        
+//        self.calculation()
     }
     
     func checkCache(){
@@ -80,7 +82,7 @@ class SituationLogicManager: NSObject {
         }
     }
     
-    func calculation() -> CGFloat{
+    func calculation(){
         var courseNum: CGFloat = 0
         var totleScore: CGFloat = 0
         
@@ -88,7 +90,13 @@ class SituationLogicManager: NSObject {
         self.classViewModel.allSemesters = cacheSemester["passing"] as! [String]
         self.classViewModel.semesterNums = cacheSemesterNum["passing"] as! Int
         
-        for semester in self.classViewModel.allSemesters {
+        
+        var lim: Int = 0
+        var nian: Int = 0
+        for i in 0 ..< self.classViewModel.allSemesters.count {
+            lim += 1
+            let semester =  self.classViewModel.allSemesters[4 - i]
+            print(semester)
             let currentSectionCourse: [Dictionary<String, String>] = self.classViewModel.dataSourse[semester] as! [Dictionary<String, String>]
             courseNum += CGFloat(currentSectionCourse.count)
             for course in currentSectionCourse {
@@ -96,16 +104,23 @@ class SituationLogicManager: NSObject {
                 if attribute == "必修" || attribute == "选修"{
                     let scoreString: String = course["score"]! as String                                                                
                     let scoreFloat: Float? = Float(scoreString)
-                    print(scoreFloat)
+//                    print(scoreFloat)
                     totleScore += CGFloat(scoreFloat!)
                 }
                 else {
                     courseNum -= 1
                 }
             }
+            if lim % 2 == 0 {
+                nian += 1
+                let junfen: CGFloat = CGFloat(totleScore) / CGFloat(courseNum)
+                print(junfen)
+
+            }
         }
+
         let junfen: CGFloat = CGFloat(totleScore) / CGFloat(courseNum)
-        return junfen
+        print(junfen)
     }
     
     func getGPA(isFour: Bool) -> [Double] {

@@ -95,8 +95,8 @@ class CommentTVCell: UITableViewCell {
         //set the create date label
         cellHeight += (commentCreateDateLabelHeight + commentCreateDateLabelTopMargin + commentCreateDateLabelBottomMargin)
         //
-        let limHeight = cellHeight > commentCellMinHeight ? cellHeight + 22.0: commentCellMinHeight
-        return limHeight
+        let limheight = cellHeight > commentCellMinHeight ? cellHeight + 22.0: commentCellMinHeight
+        return limheight
     }
     
     func configWithData(data: [String: AnyObject]!, cellWidth: CGFloat = 0){

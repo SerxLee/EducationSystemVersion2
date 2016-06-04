@@ -47,6 +47,7 @@ class LoginLogicManager: NSObject{
                 let lim_data = operation!["data"] as! NSDictionary
                 self.classViewModel.courseDataArray = lim_data["info"] as? [NSDictionary]
                 studentInfo = lim_data["school_roll_info"] as? NSDictionary
+                print(studentInfo)
                 
                 self.putDataToCache()
                 
@@ -95,7 +96,7 @@ class LoginLogicManager: NSObject{
     }
     
     func getHistoryData() {
-        historyDataModel.dataRead()
+        historyDataModel.dataRead(false)
         classViewModel.historyArray = historyDataModel.toReadArray
     }
     

@@ -88,9 +88,29 @@ class CommentViewController: UIViewController {
         self.tableView.allowsSelection = false
         self.tableView.tableFooterView = UIView.init()
         self.tableView.backgroundColor = UIColor.clearColor()
-        self.view.backgroundColor = themeColor
+//        self.view.backgroundColor = themeColor
+        /**
+            add the textfield to te table view , 
+                if not . the real comment text field will not found
+        */
+        self.tableView.addSubview(fakeCommentInputField)
         
-        self.navigationController?.navigationBar.lt_setBackgroundColor(themeColor)
+        self.navigationController?.navigationBar.lt_setBackgroundColor(themeColor.colorWithAlphaComponent(0.0))
+        //定义渐变的颜色，多色渐变太魔性了，我们就用两种颜色
+        let topColor = themeColor
+        let buttomColor = UIColor.whiteColor()
+        //将颜色和颜色的位置定义在数组内
+        let gradientColors: [CGColor] = [topColor.CGColor, buttomColor.CGColor]
+        let gradientLocations: [CGFloat] = [0.0, 1.0]
+        
+        //创建CAGradientLayer实例并设置参数
+        let gradientLayer: CAGradientLayer = CAGradientLayer()
+        gradientLayer.colors = gradientColors
+        gradientLayer.locations = gradientLocations
+        
+        //设置其frame以及插入view的layer
+        gradientLayer.frame = CGRectMake(0, 0, MasterViewController.getUIScreenSize(true), MasterViewController.getUIScreenSize(false) / 4.0)
+        self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
         
         //set navigation bar
         let img = UIImage(named: "editImage")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
@@ -199,8 +219,16 @@ class CommentViewController: UIViewController {
 //        self.dismissViewControllerAnimated(true, completion: nil)
         self.navigationController?.popViewControllerAnimated(true)
     }
+    
+    //handle the new commment
     @IBAction func rightBarItemAction(sender: AnyObject) {
         //TODO: edit a new comment
+        if fakeCommentInputField.becomeFirstResponder() {
+            realCommentInputField.placeholder = ""
+            realCommentInputField.becomeFirstResponder()
+        }
+        //set it is new comment 
+        self.isNewComment = true
     }
 }
 
@@ -238,9 +266,10 @@ extension CommentViewController: UITextFieldDelegate {
             }
             //MARK: if the comment text is not nil, sent to logic manager handle
             else {
-                var row: Int?
+                var row = self.commentOperatingIndexPaths?.row
                 if isNewComment {
-                    row = self.commentOperatingIndexPaths?.row
+                    print(row)
+                    row = nil
                 }
                 self.logicManager.handleCommentPublic(commentText, isNewComment: isNewComment, getRow: row)
             }

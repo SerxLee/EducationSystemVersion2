@@ -14,6 +14,7 @@
 		9B2AC0581CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AC0571CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift */; };
 		9B2AC05A1CFDB55600A19379 /* HamburgerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AC0591CFDB55600A19379 /* HamburgerButton.swift */; };
 		9B2AC06D1CFF19AE00A19379 /* Double+SaveTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AC06C1CFF19AE00A19379 /* Double+SaveTwo.swift */; };
+		9B2AC0701D0011A100A19379 /* PageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AC06F1D0011A100A19379 /* PageTVCell.swift */; };
 		9B56341D1CF5A7750082E1CE /* UINavigationBar+LTNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B56341C1CF5A7750082E1CE /* UINavigationBar+LTNavigationBar.swift */; };
 		9B5634261CF5D0570082E1CE /* MasterLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5634201CF5D0570082E1CE /* MasterLogicManager.swift */; };
 		9B5634271CF5D0570082E1CE /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5634211CF5D0570082E1CE /* MasterViewController.swift */; };
@@ -29,7 +30,6 @@
 		9B56344F1CF6A5940082E1CE /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5634491CF6A5940082E1CE /* CommentViewController.swift */; };
 		9B5634521CF6A5940082E1CE /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B56344C1CF6A5940082E1CE /* CommentViewModel.swift */; };
 		9B5634541CF6B5E40082E1CE /* UIView+HandyFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5634531CF6B5E40082E1CE /* UIView+HandyFrame.swift */; };
-		9B5634561CF739110082E1CE /* userName.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B5634551CF739110082E1CE /* userName.plist */; };
 		9B6B78C71CF299630008F50C /* HistoryDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B78C61CF299630008F50C /* HistoryDataModel.swift */; };
 		9B6B78E11CF29B9F0008F50C /* LoginLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B78E01CF29B9F0008F50C /* LoginLogicManager.swift */; };
 		9B6B78F11CF2C0AE0008F50C /* CouseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B78F01CF2C0AE0008F50C /* CouseCache.swift */; };
@@ -56,6 +56,7 @@
 		9BC1C4861CF28E4800EB87CF /* EducationSystemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1C4851CF28E4800EB87CF /* EducationSystemUITests.swift */; };
 		9BC1C49F1CF291C300EB87CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1C49E1CF291C300EB87CF /* LoginViewController.swift */; };
 		9BC1C4A11CF291D700EB87CF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1C4A01CF291D700EB87CF /* LoginViewModel.swift */; };
+		9BE5E1021D01113400ECBB1E /* situationTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE5E1011D01113400ECBB1E /* situationTVCell.swift */; };
 		CDF133E81C4F0E14720BEB78 /* Pods_EducationSystemTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32C6CD4B25525269AC94ED92 /* Pods_EducationSystemTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,7 @@
 		9B2AC0571CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+HideAndShowBottomHairline.swift"; sourceTree = "<group>"; };
 		9B2AC0591CFDB55600A19379 /* HamburgerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerButton.swift; sourceTree = "<group>"; };
 		9B2AC06C1CFF19AE00A19379 /* Double+SaveTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+SaveTwo.swift"; sourceTree = "<group>"; };
+		9B2AC06F1D0011A100A19379 /* PageTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageTVCell.swift; sourceTree = "<group>"; };
 		9B56341C1CF5A7750082E1CE /* UINavigationBar+LTNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+LTNavigationBar.swift"; sourceTree = "<group>"; };
 		9B5634201CF5D0570082E1CE /* MasterLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterLogicManager.swift; sourceTree = "<group>"; };
 		9B5634211CF5D0570082E1CE /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -105,7 +107,6 @@
 		9B5634491CF6A5940082E1CE /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		9B56344C1CF6A5940082E1CE /* CommentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		9B5634531CF6B5E40082E1CE /* UIView+HandyFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+HandyFrame.swift"; sourceTree = "<group>"; };
-		9B5634551CF739110082E1CE /* userName.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = userName.plist; sourceTree = "<group>"; };
 		9B6B78C61CF299630008F50C /* HistoryDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryDataModel.swift; sourceTree = "<group>"; };
 		9B6B78E01CF29B9F0008F50C /* LoginLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginLogicManager.swift; sourceTree = "<group>"; };
 		9B6B78F01CF2C0AE0008F50C /* CouseCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouseCache.swift; sourceTree = "<group>"; };
@@ -139,6 +140,7 @@
 		9BC1C4871CF28E4800EB87CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9BC1C49E1CF291C300EB87CF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9BC1C4A01CF291D700EB87CF /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		9BE5E1011D01113400ECBB1E /* situationTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = situationTVCell.swift; sourceTree = "<group>"; };
 		B831D535811542C090398E17 /* Pods_EducationSystemUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EducationSystemUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -193,16 +195,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9B2AC06E1D00112300A19379 /* MaterPage */ = {
+			isa = PBXGroup;
+			children = (
+				9B5634311CF5E2D30082E1CE /* MasterPageViewController.swift */,
+				9B5634331CF69DAE0082E1CE /* PassingViewController.swift */,
+				9B5634371CF69DD10082E1CE /* SemesterViewController.swift */,
+				9B5634351CF69DC20082E1CE /* FailViewController.swift */,
+				9B2AC06F1D0011A100A19379 /* PageTVCell.swift */,
+			);
+			name = MaterPage;
+			sourceTree = "<group>";
+		};
 		9B56341E1CF5D0360082E1CE /* master */ = {
 			isa = PBXGroup;
 			children = (
 				9B5634211CF5D0570082E1CE /* MasterViewController.swift */,
 				9B5634201CF5D0570082E1CE /* MasterLogicManager.swift */,
 				9B5634241CF5D0570082E1CE /* MasterViewModel.swift */,
-				9B5634311CF5E2D30082E1CE /* MasterPageViewController.swift */,
-				9B5634331CF69DAE0082E1CE /* PassingViewController.swift */,
-				9B5634371CF69DD10082E1CE /* SemesterViewController.swift */,
-				9B5634351CF69DC20082E1CE /* FailViewController.swift */,
 				9B6B78F01CF2C0AE0008F50C /* CouseCache.swift */,
 			);
 			name = master;
@@ -259,9 +269,10 @@
 				9BC1C4981CF28FB900EB87CF /* Side Page */,
 				9BC1C4931CF28EBA00EB87CF /* Login */,
 				9B56341E1CF5D0360082E1CE /* master */,
+				9B2AC06E1D00112300A19379 /* MaterPage */,
+				9BC1C4991CF28FD900EB87CF /* Situation */,
 				9B89B6661CFC1772004EED28 /* Search */,
 				9B85C86B1CF7F8B60029E244 /* CourseDetail */,
-				9BC1C4991CF28FD900EB87CF /* Situation */,
 				9BC1C4951CF28F1000EB87CF /* Comment */,
 				9BC1C4971CF28F2C00EB87CF /* Story Board */,
 				9BC1C4961CF28F1D00EB87CF /* Support */,
@@ -322,7 +333,6 @@
 				9B2AC00A1CFC5A9700A19379 /* NSDictionary+LoadLocal.swift */,
 				9B2AC0571CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift */,
 				9B89B6431CFA883C004EED28 /* EducationSystem-Bridging-Header.h */,
-				9B5634551CF739110082E1CE /* userName.plist */,
 				9B89B6451CFA8EE5004EED28 /* uploadTest.png */,
 				9B2AC0081CFC5A4900A19379 /* -1.json */,
 				9BC1C4651CF28E4800EB87CF /* AppDelegate.swift */,
@@ -355,6 +365,7 @@
 				9B56343D1CF6A5680082E1CE /* SituationViewController.swift */,
 				9B56343C1CF6A5680082E1CE /* SituationLogicManager.swift */,
 				9B5634401CF6A5680082E1CE /* SituationViewModel.swift */,
+				9BE5E1011D01113400ECBB1E /* situationTVCell.swift */,
 			);
 			name = Situation;
 			sourceTree = "<group>";
@@ -473,7 +484,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B89B6461CFA8EE5004EED28 /* uploadTest.png in Resources */,
-				9B5634561CF739110082E1CE /* userName.plist in Resources */,
 				9BC1C4701CF28E4800EB87CF /* LaunchScreen.storyboard in Resources */,
 				9B2AC0091CFC5A4900A19379 /* -1.json in Resources */,
 				9BC1C46D1CF28E4800EB87CF /* Assets.xcassets in Resources */,
@@ -635,6 +645,7 @@
 				9B89B6721CFC1798004EED28 /* SearchViewModel.swift in Sources */,
 				9B5634321CF5E2D30082E1CE /* MasterPageViewController.swift in Sources */,
 				9B6B790E1CF559950008F50C /* CurrentDevice.swift in Sources */,
+				9B2AC0701D0011A100A19379 /* PageTVCell.swift in Sources */,
 				9B2AC0581CFD9D4100A19379 /* UINavigationBar+HideAndShowBottomHairline.swift in Sources */,
 				9B89B64E1CFADE0E004EED28 /* UIImage+reduceImage.swift in Sources */,
 				9BC1C4A11CF291D700EB87CF /* LoginViewModel.swift in Sources */,
@@ -652,6 +663,7 @@
 				9B89B66F1CFC1798004EED28 /* SearchViewController.swift in Sources */,
 				9B2AC06D1CFF19AE00A19379 /* Double+SaveTwo.swift in Sources */,
 				9B5634421CF6A5680082E1CE /* SituationLogicManager.swift in Sources */,
+				9BE5E1021D01113400ECBB1E /* situationTVCell.swift in Sources */,
 				9B6B78F11CF2C0AE0008F50C /* CouseCache.swift in Sources */,
 				9B85C86A1CF7F88E0029E244 /* NSDate+Comment.swift in Sources */,
 				9B85C8741CF7F9A40029E244 /* CourseDetailViewController.swift in Sources */,

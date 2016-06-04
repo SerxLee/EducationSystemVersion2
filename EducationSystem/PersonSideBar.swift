@@ -60,6 +60,8 @@ class PersonSideBar: UIView {
         self.tableView.tableFooterView = UIView.init()
         self.backgroundView.addSubview(self.tableView)
         self.tableView.contentInset.top = 160
+        self.tableView.separatorStyle = .None
+        self.tableView.scrollEnabled = false
         
         self.footerView = UIImageView()
         self.footerView.backgroundColor = UIColor.whiteColor()
@@ -283,6 +285,22 @@ class PersonSideBar: UIView {
         }
     }
     
+    //click clean history data cell
+    func notionWhileClean() {
+        let notionAlert = UIAlertController(title: "请确认操作", message: "", preferredStyle: .Alert)
+        let cancelOption = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+        let confirmOption = UIAlertAction(title: "确定", style: .Default) { (nil) in
+            let historyDataModel = HistoryDataModel()
+            historyDataModel.dataRead(true)
+        }
+        notionAlert.addAction(confirmOption)
+        notionAlert.addAction(cancelOption)
+        let currentController = self.getCurrentViewController()
+        currentController?.presentViewController(notionAlert, animated: true, completion: nil)
+    }
+    
+    
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -364,6 +382,22 @@ extension PersonSideBar: UITableViewDelegate{
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if indexPath.section == 1 {
+            let row = indexPath.row
+            //
+            if row == 0 {
+                
+            }
+            //
+            else if row == 1 {
+                
+            }
+            //
+            else if row == 2 {
+                self.notionWhileClean()
+            }
+        }
     }
 }
 
@@ -382,13 +416,16 @@ extension PersonSideBar: UITableViewDataSource{
         return 2
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        var title: String = ""
         if section == 0 {
-            return 0
+            title = "基本信息"
         }
-        else {
-            return 25.0
+        else if section == 1 {
+            title = "其他操作"
         }
+        return title
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -403,21 +440,21 @@ extension PersonSideBar: UITableViewDataSource{
             ///set the cell enable to be selected
             cell?.selectionStyle = UITableViewCellSelectionStyle.None
             if row == 0 {
-                lableText = studentInfo!["class"] as? String
+                lableText = "    \(studentInfo!["class"] as! String)"
             }
             else {
-                lableText = studentInfo!["stu_id"] as? String
+                lableText = "    \(studentInfo!["stu_id"] as! String)"
             }
         }
         else if sectionOfIndex == 1 {
             if row == 0 {
-                lableText = "前往某评论区"
+                lableText = "    前往某评论区"
             }
             else if row == 1 {
-                lableText = "个人评论"
+                lableText = "    个人评论"
             }
             else if row == 2 {
-                lableText = "设置"
+                lableText = "    清理缓存"
             }
         }
         cell?.textLabel?.text = lableText

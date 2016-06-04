@@ -6,15 +6,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EducationSystem/CourseDetailLogicManager.swift"
-            timestampString = "486473323.118311"
+            filePath = "EducationSystem/CommentLogicManager.swift"
+            timestampString = "486559607.689648"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21">
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "handleCommentPublic(_:isNewComment:getRow:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EducationSystem.CommentLogicManager.handleCommentPublic (Swift.String, isNewComment : Swift.Bool, getRow : Swift.Optional&lt;Swift.Int&gt;) -&gt; ()"
+                  moduleName = "EducationSystem"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rishaoxiang/Desktop/EducationSystem/EducationSystem/CommentLogicManager.swift"
+                  timestampString = "486524197.176924"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "346">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EducationSystem.CommentLogicManager.(handleCommentPublic (Swift.String, isNewComment : Swift.Bool, getRow : Swift.Optional&lt;Swift.Int&gt;) -&gt; ()).(closure #1)"
+                  moduleName = "EducationSystem"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rishaoxiang/Desktop/EducationSystem/EducationSystem/CommentLogicManager.swift"
+                  timestampString = "486524197.177062"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -20,6 +20,7 @@ class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        self.navigationController?.fd_prefersNavigationBarHidden = true
         self.title = "搜索课程"
         self.initView()
     }
@@ -33,7 +34,9 @@ class SearchViewController: UIViewController {
     }
 
     @IBAction func leftBarItemAction(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
+//        self.navigationController?.navigationBar.lt_setBackgroundColor(themeColor.colorWithAlphaComponent(currentAlpha))
+        
     }
     
     override func didReceiveMemoryWarning() {
