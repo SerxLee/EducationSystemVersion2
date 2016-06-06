@@ -4,12 +4,16 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'EducationSystem' do
-	pod 'Masonry'
 	pod 'AFNetworking', '2.5.0'
         pod 'Qiniu', '~> 7.0'
 	pod 'Observable-Swift', '~> 0.6.0'
 	pod 'FDFullscreenPopGesture', '1.1'
 	pod 'Charts', '~> 2.2.4'
+	pod 'JMRoundedCornerSwift'
+	pod 'MJRefresh'
+	pod 'SVProgressHUD'
+	pod 'Kingfisher', '~> 2.4'
+	pod 'SnapKit', '~> 0.15.0'
 end
 
 target 'EducationSystemTests' do

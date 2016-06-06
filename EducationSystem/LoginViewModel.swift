@@ -25,8 +25,10 @@ class LoginViewModel {
     var courseDataArray: [NSDictionary]?
     var studentInfo: NSDictionary?
     
-    var LoginSuccess: Observable<Bool> = Observable(false)
+    var LoginSuccess: Observable<Int> = Observable(0)
     
+    var errorMessege1 = String()
+    var errorMessege2 = String()
     init() {
         // Initialize any variables if any
         LoginViewModel.initAllPublicCache()

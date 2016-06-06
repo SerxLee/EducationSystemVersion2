@@ -13,11 +13,15 @@ import Qiniu
 import HappyDNS
 import Kingfisher
 import Foundation
+import Observable
+import SnapKit
 
 
 public let rawWidth = UIScreen.mainScreen().bounds.width
 public let rawHeight = UIScreen.mainScreen().bounds.height
 public let kNavHieght = 64
+
+public var masterImageChange: Observable<Int> = Observable(1)
 
 class PersonSideBar: UIView {
     
@@ -31,8 +35,10 @@ class PersonSideBar: UIView {
     
     
     var userHeadImageURL: String = studentInfo!["head"] as! String
-    let imageFileName: String = "myHead"
+    let imageFileName: String = "image1"
     var hadChangeImage: Bool = false
+    
+    var isSelectedHeader = false
     
     let color: UIColor = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5)
     
@@ -53,7 +59,7 @@ class PersonSideBar: UIView {
         self.backgroundView.userInteractionEnabled = true
         self.addSubview(self.backgroundView)
 
-        self.tableView = UITableView.init(frame: CGRectMake(0, 0, barWidth, rawHeight - 40), style: .Plain)
+        self.tableView = UITableView.init(frame: CGRectMake(0, 0, barWidth, rawHeight), style: .Plain)
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.showsVerticalScrollIndicator = false
@@ -63,22 +69,31 @@ class PersonSideBar: UIView {
         self.tableView.separatorStyle = .None
         self.tableView.scrollEnabled = false
         
-        self.footerView = UIImageView()
-        self.footerView.backgroundColor = UIColor.whiteColor()
-        self.footerView.frame = CGRectMake(0, rawHeight - 40, barWidth, 40)
-        self.footerView.contentMode = .ScaleAspectFill
-        self.backgroundView.addSubview(footerView)
-        self.footerView.autoresizesSubviews = true
+//        self.footerView = UIImageView()
+//        self.footerView.backgroundColor = UIColor.whiteColor()
+//        self.footerView.frame = CGRectMake(0, rawHeight - 40, barWidth, 40)
+//        self.footerView.contentMode = .ScaleAspectFill
+//        self.backgroundView.addSubview(footerView)
+//        self.footerView.autoresizesSubviews = true
         
         self.cancelButton = UIButton(type: UIButtonType.System)
-        self.cancelButton.frame = CGRectMake(0, rawHeight - 40, barWidth, 40)
+//        self.cancelButton.frame = CGRectMake(0, rawHeight - 40, barWidth, 40)
         self.cancelButton.setTitle("注销登录", forState: UIControlState.Normal)
+        self.cancelButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         self.cancelButton.titleLabel?.textAlignment = NSTextAlignment.Right
-        self.cancelButton.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0)
+        self.cancelButton.addTarget(self, action: #selector(PersonSideBar.cancelLoginButtonClick(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.backgroundView.addSubview(cancelButton)
+        self.cancelButton.backgroundColor = UIColor.redColor()
+        self.cancelButton.layer.cornerRadius = 5.0
+        self.cancelButton.snp_makeConstraints { (make) in
+            make.centerX.equalTo(self.tableView)
+            make.width.equalTo(100)
+            make.height.equalTo(25)
+            make.bottom.equalTo(-5)
+        }
         
         self.zoomImageView = UIImageView()
-        self.zoomImageView.backgroundColor = UIColor(red: 0/255.0, green: 175/255.0, blue: 240/255.0, alpha: 1)
+        self.zoomImageView.backgroundColor = themeColor
         self.zoomImageView.frame = CGRectMake(0, -160, barWidth, 160)
         self.zoomImageView.contentMode = .ScaleAspectFill
         self.tableView.addSubview(self.zoomImageView)
@@ -114,14 +129,12 @@ class PersonSideBar: UIView {
         let slideLeft = UISwipeGestureRecognizer(target: self, action: #selector(PersonSideBar.dismissClick(_:)))
         slideLeft.direction = .Left
         self.tableView.addGestureRecognizer(slideLeft)
-        
-        self.cancelButton.addTarget(self, action: #selector(PersonSideBar.cancelLoginButtonClick(_:)), forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     func loadUserImage() {
         if userHeadImageURL != ""{
             let url: NSURL = NSURL(string: self.userHeadImageURL)!
-            self.headImageView.setImageWithURL(url, placeholderImage: UIImage(named: "defaultImage")!)
+            self.headImageView.kf_setImageWithURL(url)
         }
         else {
             self.headImageView.image = UIImage(named: "defaultImage")
@@ -156,7 +169,7 @@ class PersonSideBar: UIView {
     
     func cancelLogin(ac: UIAlertAction) -> Void{
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let loginVC = storyBoard.instantiateViewControllerWithIdentifier("LoginViewController")
+        let loginVC = storyBoard.instantiateViewControllerWithIdentifier("NewLoginViewController")
         self.window?.rootViewController = loginVC
     }
     
@@ -168,7 +181,8 @@ class PersonSideBar: UIView {
     }
     
     func selectIcon(){
-        let userIconAlert = UIAlertController(title: "请选择操作", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        self.isSelectedHeader = true
+        let userIconAlert = UIAlertController(title: "更换头像", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
         let chooseFromPhotoAlbum = UIAlertAction(title: "从相册选择", style: UIAlertActionStyle.Default, handler: funcChooseFromPhotoAlbum)
         userIconAlert.addAction(chooseFromPhotoAlbum)
         let chooseFromCamera = UIAlertAction(title: "拍照", style: UIAlertActionStyle.Default,handler:funcChooseFromCamera)
@@ -299,7 +313,42 @@ class PersonSideBar: UIView {
         currentController?.presentViewController(notionAlert, animated: true, completion: nil)
     }
     
+    func gotoCommentViaSideBar() {
+        let currentController = getCurrentViewController()
+        let alert = UIAlertController(title: "", message: "Enter course number", preferredStyle: .Alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+            textField.text = ""
+        })
+        
+        //3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "前往", style: .Default, handler: { (action) -> Void in
+            let textField = alert.textFields![0] as UITextField
+            let str = textField.text!
+            if str != "" {
+                let commentController = CommentViewController()
+                commentController.className = str
+                currentController?.navigationController?.pushViewController(commentController, animated: true)
+            }
+        }))
+        
+        // 4. Present the alert.
+        currentController!.presentViewController(alert, animated: true, completion: nil)
+    }
     
+    func selectedBackgroundImage(){
+        self.isSelectedHeader = false
+        let userIconAlert = UIAlertController(title: "更换背景", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let chooseFromPhotoAlbum = UIAlertAction(title: "从相册选择", style: UIAlertActionStyle.Default, handler: funcChooseFromPhotoAlbum)
+        userIconAlert.addAction(chooseFromPhotoAlbum)
+        let chooseFromCamera = UIAlertAction(title: "拍照", style: UIAlertActionStyle.Default,handler:funcChooseFromCamera)
+        userIconAlert.addAction(chooseFromCamera)
+        let canelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel,handler: nil)
+        userIconAlert.addAction(canelAction)
+        let currentController = self.getCurrentViewController()
+        currentController?.presentViewController(userIconAlert, animated: true, completion: nil)
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -322,11 +371,27 @@ extension PersonSideBar: UIImagePickerControllerDelegate, UINavigationController
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let image = (info as NSDictionary).objectForKey(UIImagePickerControllerEditedImage)
         
-//        self.saveImage(image as! UIImage, imageName: imageFileName)
-//        let fullPath = ((NSHomeDirectory() as NSString).stringByAppendingPathComponent("Documents") as NSString).stringByAppendingPathComponent(imageFileName)
+        if self.isSelectedHeader {
+            uploadWithName(imageFileName, content: image as! UIImage)
+        }
+        else {
+            self.saveImage(image as! UIImage, imageName: imageFileName)
+//            let fullPath = ((NSHomeDirectory() as NSString).stringByAppendingPathComponent("Documents") as NSString).stringByAppendingPathComponent(imageFileName)
+//            let savedImage = UIImage(contentsOfFile: fullPath)
+//            let controller = self.getCurrentViewController() as! MasterViewController
+//            controller.viewHeaderImage.image = savedImage
+            
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.backgroundView.frame = CGRectMake(-self.backgroundView.frame.size.width, self.backgroundView.frame.origin.y, self.backgroundView.frame.size.width, self.backgroundView.frame.size.height)
+            }) { (finshed) -> Void in
+                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                    self.alpha = 0
+                })
+            }
+            /** transaction to masterView */
+            masterImageChange <- (0 - masterImageChange.value)
+        }
         
-//        let savedImage = UIImage(contentsOfFile: fullPath)
-        uploadWithName(imageFileName, content: image as! UIImage)
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -353,10 +418,15 @@ extension PersonSideBar: UIImagePickerControllerDelegate, UINavigationController
                 if err == 0 {
                     self.userHeadImageURL = resp["data"] as! String
                     print("change success")
+                    NSThread.sleepForTimeInterval(2.0)
                     //get back the main queue and update the userImage
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    dispatch_async(dispatch_get_main_queue(), {
                         self.loadUserImage()
                     })
+                    ///update head in studentInfo
+                    let limStudentInfo: NSMutableDictionary = NSMutableDictionary(dictionary: studentInfo!)
+                    limStudentInfo["head"] = self.userHeadImageURL
+                    studentInfo = NSDictionary(dictionary: limStudentInfo)
                 }
                 else {
                     print(resp["reason"] as! String)
@@ -367,6 +437,7 @@ extension PersonSideBar: UIImagePickerControllerDelegate, UINavigationController
             }, option: nil)
     }
 }
+
 
 extension PersonSideBar: UITableViewDelegate{
     
@@ -385,17 +456,17 @@ extension PersonSideBar: UITableViewDelegate{
         
         if indexPath.section == 1 {
             let row = indexPath.row
-            //
-            if row == 0 {
-                
-            }
-            //
-            else if row == 1 {
-                
-            }
-            //
-            else if row == 2 {
+//            if row == 0 {
+//                
+//            }
+//            //
+
+//            else
+            if row == 1 {
                 self.notionWhileClean()
+            }
+            else if row == 0 {
+                self.selectedBackgroundImage()
             }
         }
     }
@@ -408,7 +479,7 @@ extension PersonSideBar: UITableViewDataSource{
             return 2
         }
         else {
-            return 3
+            return 2
         }
     }
     
@@ -447,15 +518,17 @@ extension PersonSideBar: UITableViewDataSource{
             }
         }
         else if sectionOfIndex == 1 {
-            if row == 0 {
-                lableText = "    前往某评论区"
-            }
-            else if row == 1 {
-                lableText = "    个人评论"
-            }
-            else if row == 2 {
+//            if row == 0 {
+//                lableText = "    前往某评论区"
+//            }
+//            else
+            if row == 1 {
                 lableText = "    清理缓存"
             }
+            else if row == 0 {
+                lableText = "    更改封面图"
+            }
+
         }
         cell?.textLabel?.text = lableText
         return cell!

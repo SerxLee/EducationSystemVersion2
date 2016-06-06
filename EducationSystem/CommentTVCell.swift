@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import JMRoundedCornerSwift
+import Kingfisher
 
 class CommentTVCell: UITableViewCell {
     
@@ -107,6 +109,21 @@ class CommentTVCell: UITableViewCell {
         let createDate = data?["time"]  as? Int
         let like = data?["digg"] as? Int
         let digged = data!["digged"] as! Int
+        let header = data["head"] as? String
+        
+        
+        let limImageView: UIImageView!
+        limImageView = UIImageView(frame: CGRectMake(0, 0, 50, 50))
+        if header != ""{
+            let url: NSURL = NSURL(string: header!)!
+            limImageView.kf_setImageWithURL(url)
+        }
+        else {
+            limImageView.image = UIImage(named: "defaultImage")
+        }
+        self.headImage.radiusWith(25, backgroundImage: limImageView.image)
+        
+        
         let commentTextViewWidth = cellWidth - mainCommentTextViewLittleThanCellWidth
         // 设置文字内容
         let commentAttributedText = CommentTVCell.buildCommmentTextViewAttributedTextWithAuthorName(studentName, commentTextContent:textContent)

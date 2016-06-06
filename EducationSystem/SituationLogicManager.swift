@@ -85,6 +85,7 @@ class SituationLogicManager: NSObject {
     func calculation(){
         var courseNum: CGFloat = 0
         var totleScore: CGFloat = 0
+        var totleCredit: CGFloat = 0
         
         self.classViewModel.dataSourse = cacheCourseData["passing"] as! NSMutableDictionary
         self.classViewModel.allSemesters = cacheSemester["passing"] as! [String]
@@ -95,7 +96,7 @@ class SituationLogicManager: NSObject {
         var nian: Int = 0
         for i in 0 ..< self.classViewModel.allSemesters.count {
             lim += 1
-            let semester =  self.classViewModel.allSemesters[4 - i]
+            let semester =  self.classViewModel.allSemesters[self.classViewModel.allSemesters.count - 1 - i]
             print(semester)
             let currentSectionCourse: [Dictionary<String, String>] = self.classViewModel.dataSourse[semester] as! [Dictionary<String, String>]
             courseNum += CGFloat(currentSectionCourse.count)
@@ -104,8 +105,11 @@ class SituationLogicManager: NSObject {
                 if attribute == "必修" || attribute == "选修"{
                     let scoreString: String = course["score"]! as String                                                                
                     let scoreFloat: Float? = Float(scoreString)
+                    let creditString: String = course["credit"]! as String
+                    let creditFloat: Float? = Float(creditString)
 //                    print(scoreFloat)
-                    totleScore += CGFloat(scoreFloat!)
+                    totleScore += (CGFloat(scoreFloat!) * CGFloat(creditFloat!))
+                    totleCredit += CGFloat(creditFloat!)
                 }
                 else {
                     courseNum -= 1
@@ -113,13 +117,12 @@ class SituationLogicManager: NSObject {
             }
             if lim % 2 == 0 {
                 nian += 1
-                let junfen: CGFloat = CGFloat(totleScore) / CGFloat(courseNum)
+                let junfen: CGFloat = CGFloat(totleScore) / CGFloat(totleCredit)
                 print(junfen)
-
             }
         }
 
-        let junfen: CGFloat = CGFloat(totleScore) / CGFloat(courseNum)
+        let junfen: CGFloat = CGFloat(totleScore) / CGFloat(totleCredit)
         print(junfen)
     }
     
@@ -133,7 +136,7 @@ class SituationLogicManager: NSObject {
             twoSemester = 1
         }
         var header: CGFloat = 0
-        var footer: CGFloat = 0
+        var footer: CGFloat = 0.00000001
         for semester in self.classViewModel.allSemesters {
             //mark the it is the second semester in year
             twoSemester += 1
@@ -174,7 +177,7 @@ class SituationLogicManager: NSObject {
                     gpaTerm.append(Double((header * 4.0) / (footer * 100)))
                 }
                 header = 0
-                footer = 0
+                footer = 0.00000001
                 twoSemester = 0
             }
         }
@@ -203,16 +206,18 @@ class SituationLogicManager: NSObject {
     
     func getScoreAverage(isAllCourse: Bool){
         var allScore: CGFloat = 0
-        var courseNum: CGFloat = 0
+        var courseNum: CGFloat = 0.0000001
+        var allScoreXCredit: CGFloat = 0
+        
         
         var creditNet: CGFloat = 0
-        var creditS: CGFloat = 0
-        var creditp: CGFloat = 0
+        var creditS: CGFloat = 0.0000001
+        var creditp: CGFloat = 0.0000001
         
         var scoreTerm: [Double] = []
         for semester in self.classViewModel.allSemesters {
             var semesterAllScore: CGFloat = 0
-            var semesterCourseNum: CGFloat = 0
+            var semesterCourseNum: CGFloat = 0.0000001
             
             let specializedCourse = self.classViewModel.courseDataSpecialized[semester]
             let publicCourse = self.classViewModel.courseDataPublic[semester]
@@ -222,10 +227,12 @@ class SituationLogicManager: NSObject {
             for item in specializedCourse! {
                 creditS += item.credit
                 semesterAllScore += item.grade
+                allScoreXCredit += item.grade * item.credit
             }
             for item in publicCourse! {
                 creditp += item.credit
                 semesterAllScore += item.grade
+                allScoreXCredit += item.grade * item.credit
             }
             for item in networkCourse! {
                 if isAllCourse {
@@ -238,6 +245,7 @@ class SituationLogicManager: NSObject {
             allScore += semesterAllScore
             scoreTerm.insert(Double(semesterAllScore / semesterCourseNum), atIndex: 0)
         }
+        self.classViewModel.chinagpa = allScoreXCredit / (creditS + creditp)
         self.classViewModel.scoreTerm = scoreTerm
         self.classViewModel.scoreAverage = allScore / courseNum
         self.classViewModel.creditNetwork = creditNet

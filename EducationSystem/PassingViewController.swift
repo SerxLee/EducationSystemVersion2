@@ -42,7 +42,6 @@ class PassingViewController: UIViewController {
         self.allSemesters = cacheSemester[type] as! [String]
         self.semesterNums = cacheSemesterNum[type] as! Int
         self.dataSourse = cacheCourseData[type] as! NSMutableDictionary
-        
         self.tableView.tableFooterView = UIView.init()
         self.tableView.reloadData()
         
@@ -59,7 +58,9 @@ class PassingViewController: UIViewController {
                 searchFinished <- 0
             }
         }
+        
     }
+    
     
 
     override func didReceiveMemoryWarning() {
@@ -85,11 +86,16 @@ extension PassingViewController: UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let row = indexPath.row
-        let indexOfSection = indexPath.section
-        var stringOfSection: String!
-        stringOfSection = allSemesters[indexOfSection]
-        let limaa = cacheCourseData[type]!
-        dict = (limaa[stringOfSection]! as! NSArray)[row] as? NSDictionary
+        if search {
+            dict = searchResults[row]
+        }
+        else {
+            let indexOfSection = indexPath.section
+            var stringOfSection: String!
+            stringOfSection = allSemesters[indexOfSection]
+            let limaa = cacheCourseData[type]!
+            dict = (limaa[stringOfSection]! as! NSArray)[row] as? NSDictionary
+        }
         
         //deSelected the cell while it is the didSelected statue
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -106,6 +112,7 @@ extension PassingViewController: UITableViewDelegate {
 //        print(offsetY)
         if offsetY > NAVBAR_CHANGE_POINT {
             height <- offsetY
+            keyBoardHideWhileSlideTableView <- Float(offsetY)
 //            let alpha:CGFloat = 1.0 - ((maxCha - offsetY) / maxCha)
 //            currentAlpha = alpha
 //            self.navigationController?.navigationBar.lt_setBackgroundColor(color.colorWithAlphaComponent(alpha))

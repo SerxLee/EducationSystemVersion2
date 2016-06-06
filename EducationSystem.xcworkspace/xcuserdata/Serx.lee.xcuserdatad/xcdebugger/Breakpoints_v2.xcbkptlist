@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EducationSystem/CommentLogicManager.swift"
-            timestampString = "486559607.689648"
+            timestampString = "486789973.293762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "handleCommentPublic(_:isNewComment:getRow:)"
             landmarkType = "5">
             <Locations>

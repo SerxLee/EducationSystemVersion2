@@ -21,6 +21,8 @@ class MasterViewModel {
     var userName: String! = ""
     var passWord: String! = ""
     
+    var showSearch: Bool = false
+    
     var semestersNum: Int!
     var allSemesters = [String]()
     var courseDataSourse : [Dictionary<String, String>]!

@@ -20,20 +20,21 @@ class CommentLogicManager: NSObject {
     var timeLast: Int = -1
     var idLast: String = "0"
     
+    var isFirst: Bool = true
+    
     override init() {
         self.classViewModel = CommentViewModel()
         super.init()
 //        self.loadDataFromLocal()
     }
     
-    func getData(isFirst: Bool) {
-        NSLog("second")
-        print(courseName)
-        if isFirst {
+    func getData() {
+        if self.isFirst {
             self.timeLast = -1
             self.idLast = "0"
         }
         else {
+            NSLog("in here")
             let lastComment = self.classViewModel.dataSourse.last!
             self.timeLast = lastComment["time"] as! Int
             self.idLast = lastComment["id"] as! String
@@ -42,17 +43,25 @@ class CommentLogicManager: NSObject {
         let URL = "https://usth.eycia.me/Reply/course/\(courseName)/20/\(idLast)/\(timeLast)"
         loginSession.GET(URL, parameters: nil, success: { (dataTask, response) in
             let err = response["err"] as! Int
-            print(response)
             if err == 0 {
-                self.classViewModel.dataSourse = response["data"] as! [NSDictionary]
-                print(response["data"])
+//                self.classViewModel.dataSourse = response["data"] as! [NSDictionary]
+                let limDataSourse: [NSDictionary] = response["data"] as! [NSDictionary]
                 //TODO: should observer
-                if self.classViewModel.dataSourse.isEmpty {
+                if limDataSourse.isEmpty {
                     // there is new data , notise
-                    self.classViewModel.getCommentState <- 2
+                    if self.isFirst {
+                        //there is not comments
+                        self.classViewModel.getCommentState <- 4
+                    }
+                    else {
+                        //there is not more comment
+                        self.classViewModel.getCommentState <- 2
+                    }
                 }
                 else {
+                    self.classViewModel.dataSourse.insertContentsOf(limDataSourse, at: self.classViewModel.dataSourse.count)
                     self.classViewModel.getCommentState <- 1
+                    print(limDataSourse)
                 }
             }
             else {
@@ -61,8 +70,7 @@ class CommentLogicManager: NSObject {
                 self.classViewModel.getCommentState <- 3
             }
             }) { (dataTask, error) in
-                NSLog("error when get the comment data")
-                print(error)
+                NSLog("error when get the comment data: \(error)")
                 self.classViewModel.getCommentState <- 3
         }
     }
@@ -85,6 +93,10 @@ class CommentLogicManager: NSObject {
         let digged: AnyObject = false
         let id: AnyObject = "0"
         
+        var header = studentInfo!["head"]
+        if header == nil {
+            header = ""
+        }
         //FIXME: add user image
         authorName = studentInfo!["name"]!
         stuId = studentInfo!["stu_id"]!
@@ -100,14 +112,14 @@ class CommentLogicManager: NSObject {
                 className = refeDic["className"]!
             }
         }
-        newDic = ["refedAuthor": refedAuthor, "content": content, "id": id, "time": time, "digged": digged, "authorName": authorName, "className": className, "refedContent": refedContent, "RefedAuthorId": RefedAuthorId, "digg": digg, "refId": refId, "stuId": stuId]
+        newDic = ["refedAuthor": refedAuthor, "content": content, "id": id, "time": time, "digged": digged, "authorName": authorName, "className": className, "refedContent": refedContent, "RefedAuthorId": RefedAuthorId, "digg": digg, "refId": refId, "stuId": stuId, "head": header!]
         
         return newDic
     }
     
     func handleCommentPublic(commentText: String, isNewComment: Bool, getRow: Int?) {
         ///handle new comment
-        print(getRow)
+        
         var newComment: NSDictionary = createOneNewComment(commentText, isNewComment: isNewComment, refeRow: getRow)
         //FIXME: notise the table view reload
         var URL = "https://usth.eycia.me/Reply/course/\(self.courseName)"
@@ -117,9 +129,9 @@ class CommentLogicManager: NSObject {
         else {
             let row = getRow!
             let refeDic: NSDictionary = self.classViewModel.dataSourse[row]
-            print(self.classViewModel.dataSourse)
+            
             let refId = refeDic["id"]!
-            print(refeDic)
+            
             URL = "https://usth.eycia.me/Reply/course/\(self.courseName)/\(refId)/reply"
         }
         self.classViewModel.dataSourse.insert(newComment, atIndex: 0)
@@ -146,8 +158,8 @@ class CommentLogicManager: NSObject {
                 self.classViewModel.newCommentUploadState <- 3
             }
             }) { (dataTask, error) in
-                NSLog("it is error when push new comment to sever")
-                print(error.localizedDescription)
+                NSLog("it is error when push new comment to sever: \(error.localizedDescription)")
+                
                 self.classViewModel.dataSourse.removeFirst()
                 //FIXME: remove the first data in data sourse, and notise tableview reload
                 self.classViewModel.newCommentUploadState <- 3
@@ -168,7 +180,7 @@ class CommentLogicManager: NSObject {
             loginSession.POST(addDiggURL, parameters: nil, success: { (dataTask, response) in
                 
                 let err = response["err"] as! Int
-                print(response)
+                
                 if err == 0 {
                     ///TODO:  notice the user dig success
                     self.classViewModel.diggUploadState <- 2
@@ -185,8 +197,8 @@ class CommentLogicManager: NSObject {
                     self.classViewModel.diggUploadState <- 3
                 }
                 }, failure: { (dataTask, error) in
-                    NSLog("the network is error while dig comment")
-                    print(error.localizedDescription)
+                    NSLog("the network is error while dig comment: \(error.localizedDescription)")
+                    
                     currentComment["digged"] = false
                     currentComment["digg"] = currentComment["digg"] as! Int - 1
                     self.classViewModel.dataSourse[row] = currentComment

@@ -47,7 +47,7 @@ class LoginLogicManager: NSObject{
                 let lim_data = operation!["data"] as! NSDictionary
                 self.classViewModel.courseDataArray = lim_data["info"] as? [NSDictionary]
                 studentInfo = lim_data["school_roll_info"] as? NSDictionary
-                print(studentInfo)
+//                print(studentInfo)
                 
                 self.putDataToCache()
                 
@@ -76,20 +76,26 @@ class LoginLogicManager: NSObject{
                         self.historyDataModel.dataWrite()
                     }
                 }
-                self.classViewModel.LoginSuccess <- true
+                self.classViewModel.LoginSuccess <- 1
             }
             else if err == 1{
                 NSLog("fine error while login")
 //                print(operation)
                 let reason = operation["reason"] as! String
+                self.classViewModel.LoginSuccess <- 2
+                self.classViewModel.errorMessege1 = reason
                 NSLog(reason)
             }
             else {
                 NSLog("unknow error while login")
                 let reason = operation["reason"] as! String
+                self.classViewModel.LoginSuccess <- 2
+                self.classViewModel.errorMessege1 = reason
                 NSLog(reason)
             }
         }) {  (dataTask, error) -> Void in
+            self.classViewModel.LoginSuccess <- 3
+            self.classViewModel.errorMessege2 = String(error.code)
             NSLog("network error while login")
             print(error)
         }
@@ -117,6 +123,7 @@ class LoginLogicManager: NSObject{
              resultData is the matched data
              */
             self.classViewModel.matchResultArray = historyDataModel.sl_matchlist(classViewModel.historyArray, strCmp: currentStr)
+            print(self.classViewModel.matchResultArray)
             let matchResultCount = self.classViewModel.matchResultArray.count
             if matchResultCount > 0 {
                 //auto fix
@@ -153,8 +160,9 @@ class LoginLogicManager: NSObject{
         self.classViewModel.deviceHeight = height
         self.classViewModel.deviceWidth = width
         
-        noSlideLengh = self.classViewModel.deviceHeight / 4
-        titleSlideLenght = self.classViewModel.deviceHeight / 6
+        //MARK: change here
+//        noSlideLengh = self.classViewModel.deviceHeight / 4
+//        titleSlideLenght = self.classViewModel.deviceHeight / 6
     }
     func putDataToCache() {
         var currentTypeSemesters = [String]()

@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 import AFNetworking
 import Observable
+import SVProgressHUD
 
 public let loginSession = AFHTTPSessionManager()
 
@@ -58,9 +59,25 @@ class LoginViewController: UIViewController {
         }
         self.classViewModel.LoginSuccess.afterChange += {old, new in
             self.shouldPerformSegueWithIdentifier("LoginToMater", sender: nil)
-            self.performSegueWithIdentifier("LoginToMater", sender: nil)
-            
+            if new == 1 {
+                SVProgressHUD.showSuccessWithStatus("登录成功")
+                self.classViewModel.LoginSuccess <- 0
+                self.performSegueWithIdentifier("LoginToMater", sender: nil)
+            }
+            else if new == 2 {
+                SVProgressHUD.showErrorWithStatus(self.classViewModel.errorMessege1)
+                self.classViewModel.LoginSuccess <- 0
+            }
+            else if new == 3 {
+                SVProgressHUD.showErrorWithStatus("错误代码：\(self.classViewModel.errorMessege2)")
+                self.classViewModel.LoginSuccess <- 0
+            }
         }
+        
+        SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.Dark)
+        SVProgressHUD.setForegroundColor(themeColor)
+        SVProgressHUD.setMinimumDismissTimeInterval(1.0)
+
     }
 
     func pawBeginEdit(){
@@ -79,6 +96,7 @@ class LoginViewController: UIViewController {
             else {
                 let height = CGFloat(statueCode)
                 self.hideHistoryTableView(false, tableViewHeight: height)
+                
             }
         }
     }
@@ -95,7 +113,9 @@ class LoginViewController: UIViewController {
             self.pasTitleToUsernameContraint.constant = tableViewHeight
             self.historyTableView.reloadData()
             self.tableViewHight.constant = tableViewHeight
-
+        }
+        UIView.animateWithDuration(0.2) { 
+            self.view.layoutIfNeeded()
         }
     }
     
@@ -103,7 +123,8 @@ class LoginViewController: UIViewController {
         if identifier == "LoginToMater" {
             let account = userName.text
             let password = passWord.text
-            if account == "" || password == "" || self.classViewModel.LoginSuccess.value == false {
+            let limValue = self.classViewModel.LoginSuccess.value
+            if account == "" || password == "" || limValue == 2 || limValue == 3 || limValue == 0{
                 return false
             }
         }
@@ -132,8 +153,9 @@ class LoginViewController: UIViewController {
     */
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        UIView.animateWithDuration(1.0) {
             self.titleToTopBoundContraint.constant = titleSlideLenght
+            UIView.animateWithDuration(0.2) {
+                self.view.layoutIfNeeded()
         }
         return true
     }
@@ -147,9 +169,11 @@ extension LoginViewController: UITextFieldDelegate {
         else if textField ==  passWord {
             self.logicManager.checkLoginInformation(userName.text!, password: passWord.text!)
             self.passWord.resignFirstResponder()
-            UIView.animateWithDuration(1.0, animations: {
-                self.titleToTopBoundContraint.constant = noSlideLengh
+            self.titleToTopBoundContraint.constant = noSlideLengh
+            UIView.animateWithDuration(0.2, animations: { 
+                self.view.layoutIfNeeded()
             })
+            SVProgressHUD.show()
         }
         return true
     }
@@ -177,7 +201,7 @@ extension LoginViewController: UITableViewDataSource {
         let row = indexPath.row
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! HistoryTableViewCell
         
-        cell.userName.text = self.classViewModel.historyArray[row]
+        cell.userName.text = self.classViewModel.matchResultArray[row]
         return cell
     }
 }

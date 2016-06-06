@@ -214,7 +214,7 @@ extension MasterPageViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == scrollViewPanGestureRecognzier {
             
-            let restrictValue:CGFloat = MasterViewController.getUIScreenSize(true) / 20
+            let restrictValue:CGFloat = MasterViewController.getUIScreenSize(true) / 10
             // 标识不可滑动区域
 //            let recognizerView: UIView = UIView(frame: CGRectMake(0, 0, 100, self.view.frame.height))
 //            recognizerView.backgroundColor = UIColor.darkGrayColor()

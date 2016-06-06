@@ -71,15 +71,34 @@ class HistoryDataModel {
     
     //MARK: string match method
     func sl_matchlist(stringArray: [String], strCmp: String) -> [String]{
-        var resultArray: [String] = []
-        for matched in stringArray{
-            if matched.characters.count >= strCmp.characters.count{
-                if userMatch(strCmp, str2: matched){
-                    resultArray.append(matched)
-                }
-            }
+        
+        var result = [String]()
+        result = stringArray.filter({ ( username: String) -> Bool in
+            let nameMatch = username.rangeOfString(strCmp, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            return nameMatch != nil
+        })
+        var limArray = [Int]()
+        for str in result {
+            let getInt = Int(str)
+            limArray.append(getInt!)
         }
-        return resultArray
+        result = []
+        let resultSort = limArray.sort()
+        for item in resultSort {
+            let str = String(item)
+            result.append(str)
+        }
+//        print(result)
+        
+//        var resultArray: [String] = []
+//        for matched in stringArray{
+//            if matched.characters.count >= strCmp.characters.count{
+//                if userMatch(strCmp, str2: matched){
+//                    resultArray.append(matched)
+//                }
+//            }
+//        }
+        return result
     }
     
     /**

@@ -40,6 +40,8 @@ class SituationViewModel {
     
     var gpa4: Double = 0
     
+    var chinagpa: CGFloat = 0
+    
     var scoreAverage: CGFloat = 0
     
     var creditSpecialized: CGFloat = 0

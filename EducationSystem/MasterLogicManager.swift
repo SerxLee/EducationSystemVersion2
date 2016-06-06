@@ -30,6 +30,9 @@ class MasterLogicManager: NSObject {
     
     
     func getDataViaType(getType: String) {
+        loginSession.willChangeValueForKey("timeoutInterval")
+        loginSession.requestSerializer.timeoutInterval = 10.0
+        loginSession.didChangeValueForKey("timeoutInterval")
         let URL = "https://usth.eycia.me/Score?username=\(self.classViewModel.userName)&password=\(self.classViewModel.passWord)&type=\(getType)"
         loginSession.POST(URL, parameters: nil, success: { (dataTask, response)
             in
@@ -55,6 +58,9 @@ class MasterLogicManager: NSObject {
                 cacheSemesterNum.addEntriesFromDictionary([getType : currentTypeSemesterCount!])
                 cacheCourseData.addEntriesFromDictionary([getType : currentTypeAllCourse])
                 self.fillCourseDataFromCache(getType, isFirst: self.isFirst)
+                if  self.classViewModel.showSearch{
+                    self.fillCourseDataFromCache(getType, isFirst: true)
+                }
                 switch getType {
                 case "semester":
                     searchFinished <- 22
@@ -109,7 +115,6 @@ class MasterLogicManager: NSObject {
                 searchFinished <- 11
                 break
             }
-            
         }
     }
     
@@ -125,6 +130,7 @@ class MasterLogicManager: NSObject {
             self.type = "fail"
         }
         self.checkCurrentTypeCourseIsExist(self.type)
+//        self.fillCourseDataFromCache(self.type, isFirst: true)
     }
     
     func fillCourseDataFromCache(type: String, isFirst: Bool){
@@ -161,7 +167,6 @@ class MasterLogicManager: NSObject {
                 let nameMatch = name.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
                 return nameMatch != nil
             })
-            
             print(searchResults)
             if ctype == "passing" {
                 searchFinished <- 1

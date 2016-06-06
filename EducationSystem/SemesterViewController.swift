@@ -87,6 +87,15 @@ extension SemesterViewController: UITableViewDelegate {
         //deSelected the cell while it is the didSelected statue
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+
+        let y = scrollView.contentOffset.y
+        let offsetY:CGFloat = y
+        if offsetY > NAVBAR_CHANGE_POINT {
+            keyBoardHideWhileSlideTableView <- Float(offsetY)
+        }
+    }
 }
 
 extension SemesterViewController: UITableViewDataSource {

@@ -9,13 +9,18 @@
 import UIKit
 import Charts
 import Observable
+import WebKit
 
 var startLoadChart: Observable<Int> = Observable(0)
+var webViewObservable: Observable<Int> = Observable(0)
 
 class SituationViewController: UIViewController {
     
     var userName: String!
     var passWord: String!
+    @IBOutlet weak var button1: UIButton!
+    @IBOutlet weak var button2: UIButton!
+    @IBOutlet weak var button3: UIButton!
 
     @IBOutlet weak var greditTotle: UILabel!
     @IBOutlet weak var scoreTotle: UILabel!
@@ -45,14 +50,20 @@ class SituationViewController: UIViewController {
     @IBOutlet weak var topContrainer11: NSLayoutConstraint!
     @IBOutlet weak var topContrainer21: NSLayoutConstraint!
     
+    @IBOutlet weak var questionConstraint1: NSLayoutConstraint!
+    @IBOutlet weak var questionConstraint2: NSLayoutConstraint!
+    @IBOutlet weak var questionConstraint3: NSLayoutConstraint!
+    
+    
     @IBOutlet weak var lineLeftContrainer: NSLayoutConstraint!
     @IBOutlet weak var line2RightContrainer: NSLayoutConstraint!
     
     @IBOutlet weak var firstChartHeightContrainer: NSLayoutConstraint!
     @IBOutlet weak var secondChartHeightContrainer: NSLayoutConstraint!
     
-    let semesters2 = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"]
-    let years = ["Year1", "Year2", "Year3", "Year4"]
+    @IBOutlet weak var line2CenterYConstraint: NSLayoutConstraint!
+    
+    var webView: WKWebView?
     
     var classViewModel: SituationViewModel!
     lazy var logicManager: SituationLogicManager = {return SituationLogicManager()}()
@@ -77,6 +88,14 @@ class SituationViewController: UIViewController {
         let lenghtToEdge: CGFloat = MasterViewController.getUIScreenSize(true) / 10.0
         self.setEdgeContrainer(lenghtToEdge)
         
+        self.button1.tag = 100
+        self.button1.addTarget(self, action: #selector(self.questionAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.button2.tag = 101
+        self.button2.addTarget(self, action: #selector(self.questionAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.button3.tag = 102
+        self.button3.addTarget(self, action: #selector(self.questionAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
 //
 //        NSLog("gpa")
 //        print(self.classViewModel.gpaTerm)
@@ -173,7 +192,7 @@ class SituationViewController: UIViewController {
         let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
         self.gpaLineChartView.data = lineChartData
     }
-    
+
     func getCharTitle(isFirst: Bool, numOfTitle: Int) -> [String]{
         var titles: [String] = []
         if isFirst {
@@ -191,6 +210,20 @@ class SituationViewController: UIViewController {
         return titles
     }
     
+    func questionAction(button: UIButton){
+        
+        switch button.tag {
+        case 100:
+            webViewObservable <- 1
+        case 101:
+            webViewObservable <- 2
+        case 102:
+            webViewObservable <- 3
+        default:
+            NSLog("not the button")
+        }
+    }
+    
     func setEdgeContrainer(lenght: CGFloat) {
         self.lableContrainer00.constant = lenght
         self.lableContrainer01.constant = lenght
@@ -203,7 +236,10 @@ class SituationViewController: UIViewController {
         self.scoreContrainer20.constant = lenght2
         self.scoreContrainer21.constant = lenght2
         
-        let len = self.gpaLabel.superview!.bounds.size.height / 6.0
+        var len = self.gpaLabel.superview!.bounds.size.height / 6.0
+        if MasterViewController.getUIScreenSize(false) == 480.0 {
+            len = 20
+        }
         self.topContrainer00.constant = len
         self.topContrainer01.constant = len
         self.topContrainer10.constant = len
@@ -211,9 +247,14 @@ class SituationViewController: UIViewController {
         self.topContrainer20.constant = len
         self.topContrainer21.constant = len
         
+        self.questionConstraint1.constant = len
+        self.questionConstraint2.constant = len
+        self.questionConstraint3.constant = len
+        
         let len2 = lenght
         self.line2RightContrainer.constant = len2
         self.lineLeftContrainer.constant = len2
+        self.line2CenterYConstraint.constant = 20
         
         var len3 = MasterViewController.getUIScreenSize(false)
         if len3 > 650 {
@@ -225,8 +266,8 @@ class SituationViewController: UIViewController {
         self.firstChartHeightContrainer.constant = len3
         self.secondChartHeightContrainer.constant = len3
         
-        self.scoreTotle.text = String(Double(self.classViewModel.scoreAverage).double2)
-        self.greditTotle.text = String(Double(self.classViewModel.creditPublic + self.classViewModel.creditNetwork + self.classViewModel.creditSpecialized).double2)
+        self.scoreTotle.text = String(Double(self.classViewModel.chinagpa).double2)
+        self.greditTotle.text = String(Double(self.classViewModel.scoreAverage).double2)
         self.specalGreditLabel.text = String(Double(self.classViewModel.creditSpecialized + self.classViewModel.creditPublic).double2)
         self.netGreditLabel.text = String(Double(self.classViewModel.creditNetwork).double2)
         self.gpa4Label.text = String(self.classViewModel.gpa4.double2)

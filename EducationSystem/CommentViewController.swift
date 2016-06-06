@@ -7,7 +7,15 @@
 //
 
 import UIKit
+import Foundation
 import Observable
+import AFNetworking
+import MJRefresh
+import SVProgressHUD
+import Kingfisher
+
+
+public var footerGetMoreData: Observable<Int> = Observable(0)
 
 class CommentViewController: UIViewController {
 
@@ -15,9 +23,7 @@ class CommentViewController: UIViewController {
     
     var logicManager: CommentLogicManager = {return CommentLogicManager()}()
     var classViewModel: CommentViewModel!
-    
     var className: String!
-    var headerZoomView: UIImageView!
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var rightBarButton: UIBarButtonItem!
@@ -28,6 +34,8 @@ class CommentViewController: UIViewController {
     //the digg action, the operation indexPath
     private var likeOperatingIndexPaths: NSIndexPath?
     private var isNewComment: Bool = false
+    
+    var headerImage: UIImageView!
     
     // 假评论输入框
     lazy private var fakeCommentInputField: UITextField = {
@@ -62,24 +70,50 @@ class CommentViewController: UIViewController {
         return commentInputField
     }()
     
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.tableView.frame = CGRectMake(0, MasterViewController.getUIScreenSize(false) / 4.0, MasterViewController.getUIScreenSize(true), MasterViewController.getUIScreenSize(false) / 4 * 3)
+    }
+    
     override func viewDidLoad() {
         self.classViewModel = self.logicManager.classViewModel
         self.logicManager.courseName = self.className
         //MARK: load the local data
-        self.logicManager.getData(true)
+        self.logicManager.getData()
 //        self.logicManager.loadDataFromLocal()
         super.viewDidLoad()
+        self.initHeader()
         self.initView()
-        
-//        //MARK: CREATE a button
-//        self.button = HamburgerButton(frame: CGRectMake(133, 133, 54, 54))
-//        self.button.addTarget(self, action: #selector(self.toggle(_:)), forControlEvents:.TouchUpInside)
-//        self.button.tintColor = themeColor
-//        self.view.addSubview(button)
+
     }
     
-    func toggle(sender: AnyObject!) {
-        self.button.showsMenu = !self.button.showsMenu
+    func initHeader() {
+        let x = (MasterViewController.getUIScreenSize(true) - 80) / 2.0
+        var y = MasterViewController.getUIScreenSize(false) / 4.0 - MasterViewController.getUIScreenSize(true) / 4.0
+        if MasterViewController.getUIScreenSize(true) / 4.0 <= 80 {
+            y -= MasterViewController.getUIScreenSize(true) / 16
+        }
+        let rect = CGRectMake(x, y, 80, 80)
+        self.headerImage = UIImageView(frame: rect)
+        /*
+        let imageView = UIImageView(frame: CGRectMake(0,0,80,80))
+        let urlstring = studentInfo!["head"] as! String
+        if urlstring != "" {
+            let URL: NSURL = NSURL(string: studentInfo!["head"] as! String)!
+            imageView.kf_setImageWithURL(URL)
+            self.headerImage.radiusWith(40, backgroundImage: imageView.image)
+        }
+        else {
+            self.headerImage.radiusWith(40, backgroundImage: UIImage(named: "defaultImage")!)
+        }
+        */
+        let urlstring = studentInfo!["head"] as! String
+        let URL = NSURL(string: urlstring)!
+        self.headerImage.kf_setImageWithURL(URL, placeholderImage: UIImage(named:"defaultImage"), optionsInfo: nil, progressBlock: nil, completionHandler: nil)
+        self.headerImage.layer.cornerRadius = 40
+        self.view.addSubview(self.headerImage)
     }
     
     func initView(){
@@ -87,8 +121,7 @@ class CommentViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.allowsSelection = false
         self.tableView.tableFooterView = UIView.init()
-        self.tableView.backgroundColor = UIColor.clearColor()
-//        self.view.backgroundColor = themeColor
+        
         /**
             add the textfield to te table view , 
                 if not . the real comment text field will not found
@@ -112,6 +145,7 @@ class CommentViewController: UIViewController {
         gradientLayer.frame = CGRectMake(0, 0, MasterViewController.getUIScreenSize(true), MasterViewController.getUIScreenSize(false) / 4.0)
         self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
         
+        
         //set navigation bar
         let img = UIImage(named: "editImage")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         self.rightBarButton.image = img
@@ -133,8 +167,10 @@ class CommentViewController: UIViewController {
             }
             else if new == 2 {
                 // notise the user , public success
+                SVProgressHUD.showSuccessWithStatus("发表成功！")
             }
             else if new == 3 {
+                SVProgressHUD.showErrorWithStatus("发表失败！")
                 self.afterUploadComment()
                 //notise the user , public fail
             }
@@ -153,14 +189,31 @@ class CommentViewController: UIViewController {
         }
         self.classViewModel.getCommentState.afterChange += { old, new in
             if new == 1 {
-                self.afterUploadComment()
+                self.getCommentSuccess()
                 NSLog("get comment success")
+                self.classViewModel.getCommentState <- 0
+            }
+            else if new == 4 {
+                NSLog("no comment")
+                SVProgressHUD.showErrorWithStatus("该课程目前没有评论！")
+                //TODO: show "there is no comment " in commentView
+                
+                self.classViewModel.getCommentState <- 0
             }
             else if new == 2 {
-                //data sourse is null
+                NSLog("no more comment")
+                self.tableView.mj_footer.endRefreshing()
+                self.classViewModel.getCommentState <- 0
             }
             else if new == 3 {
-                //the network is error
+                //TODO: notise the network error
+                if !self.logicManager.isFirst {
+                    self.tableView.mj_footer.endRefreshing()
+                }
+                else if self.logicManager.isFirst {
+                    SVProgressHUD.showErrorWithStatus("获取评论时网络错误！")
+                }
+                self.classViewModel.getCommentState <- 0
             }
         }
     }
@@ -170,6 +223,25 @@ class CommentViewController: UIViewController {
             self.tableView.reloadData()
             self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: true)
         }
+    }
+    
+    func getCommentSuccess() {
+        dispatch_async(dispatch_get_main_queue()) { 
+            if !self.logicManager.isFirst {
+                NSLog("endR")
+                self.tableView.mj_footer.endRefreshing()
+            }
+            if self.logicManager.isFirst {
+                self.tableView.mj_footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(self.footerRefresh))
+                NSLog("add Footer")
+                self.logicManager.isFirst = false
+            }
+            self.tableView.reloadData()
+        }
+    }
+    
+    func footerRefresh(){
+        self.logicManager.getData()
     }
     
     func afterUploadDigged(){
@@ -268,7 +340,6 @@ extension CommentViewController: UITextFieldDelegate {
             else {
                 var row = self.commentOperatingIndexPaths?.row
                 if isNewComment {
-                    print(row)
                     row = nil
                 }
                 self.logicManager.handleCommentPublic(commentText, isNewComment: isNewComment, getRow: row)

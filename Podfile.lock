@@ -25,29 +25,41 @@ PODS:
   - Charts/Core (2.2.5)
   - FDFullscreenPopGesture (1.1)
   - HappyDNS (0.3.3.1)
-  - Masonry (1.0.0)
+  - JMRoundedCornerSwift (0.0.4)
+  - Kingfisher (2.4.1)
+  - MJRefresh (3.1.0)
   - Observable-Swift (0.6.0)
   - Qiniu (7.0.19.1):
     - AFNetworking (~> 2.0)
     - HappyDNS (~> 0.2)
+  - SnapKit (0.15.0)
+  - SVProgressHUD (2.0.3)
 
 DEPENDENCIES:
   - AFNetworking (= 2.5.0)
   - Charts (~> 2.2.4)
   - FDFullscreenPopGesture (= 1.1)
-  - Masonry
+  - JMRoundedCornerSwift
+  - Kingfisher (~> 2.4)
+  - MJRefresh
   - Observable-Swift (~> 0.6.0)
   - Qiniu (~> 7.0)
+  - SnapKit (~> 0.15.0)
+  - SVProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 96ac9bf3eda33582701cb1fcc5b896aa1e20311e
   Charts: b48fcc8d7190de910ff9e9748f5360c8ea7856e5
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   HappyDNS: 816fceb07c964675bba4ffe668a7c5fc4ffdfe7e
-  Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
+  JMRoundedCornerSwift: c690727bbe0665758ebc0a8c057897d8971693b5
+  Kingfisher: 41aed5b6c1ed8fa98cf6d75283ce89cf7890f517
+  MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   Observable-Swift: c63b9fc990703b135450cb5bd3541022384867ae
   Qiniu: ceb88a496d556bdb8f8e0bddd83a1639dfe5f84b
+  SnapKit: 4962eed2ee18e48cbd2b2292fffc57efe7235f87
+  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
-PODFILE CHECKSUM: 47fe92aa9de4a15ec50553ff46cd7560d8056c53
+PODFILE CHECKSUM: f7a999cbb2946cc777f343d35d776c5b76e776b7
 
 COCOAPODS: 1.0.0.beta.2
